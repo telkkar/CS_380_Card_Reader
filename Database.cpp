@@ -17,12 +17,13 @@ Database::~Database()
     sqlite3_close(db);
 }
 
-void Database::addMember(char* idNumber, char* name)  // Get parameters later
+void Database::addMember(char* cardNumber, char* name, char* idNumber, char* courses)
 {
     // Prepare sqlStatement
+    // NEED TO ADD IN REST OF PARAMETERS
     char sqlStatement[256] = "";
-    strcat(sqlStatement, "insert into Members values(");
-    strcat(sqlStatement, idNumber);
+    strcat(sqlStatement, "INSERT INTO Members VALUES(");
+    strcat(sqlStatement, cardNumber);
     strcat(sqlStatement, ", '");
     strcat(sqlStatement, name);
     strcat(sqlStatement, "')");
@@ -35,12 +36,13 @@ void Database::addMember(char* idNumber, char* name)  // Get parameters later
     sqlite3_finalize(dbStatement);
 }
 
-void Database::addAttendance(char* idNumber, char* name) // Get parameters later
+void Database::addAttendance(char* cardNumber, char* name, char* idNumber, char* courses)
 {
     // Prepare sqlStatement
+    // NEED TO ADD IN REST OF PARAMETERS
     char sqlStatement[256] = "";
-    strcat(sqlStatement, "insert into Attendance values(");
-    strcat(sqlStatement, idNumber);
+    strcat(sqlStatement, "INSERT INTO Attendance VALUES(");
+    strcat(sqlStatement, cardNumber);
     strcat(sqlStatement, ", '");
     strcat(sqlStatement, name);
     strcat(sqlStatement, "')");
@@ -53,15 +55,40 @@ void Database::addAttendance(char* idNumber, char* name) // Get parameters later
     sqlite3_finalize(dbStatement);
 }
 
-bool Database::isMember(char* idNumber)  // Get parameters later
+bool Database::isMember(char* cardNumber)
 {
-    // Convert from char* to int
-    int compare_this_number = atoi(idNumber);
     bool found = false;
     int continueStep = 100;  //sqlite3_step() returns 100 if there is another row to be read
 
     // Prepare dbStatement
-    sqlite3_prepare(db, "select ID from Members", -1, &dbStatement, NULL);
+    sqlite3_prepare(db, "SELECT cardNumber FROM Members", -1, &dbStatement, NULL);
+
+	continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
+
+	// While the number isn't found and there are more lines to read
+	while(continueStep == 100 && found == false)
+	{
+		if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
+			found = true;
+
+		continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
+
+	}
+
+    // Close dbStatement
+	sqlite3_finalize(dbStatement);
+
+    // Did we find the number?
+    return found;
+}
+
+bool Database::isAttending(char* cardNumber)
+{
+    bool found = false;
+    int continueStep = 100;  //sqlite3_step() returns 100 if there is another row to be read
+
+    // Prepare dbStatement
+    sqlite3_prepare(db, "SELECT cardNumber FROM Attendance", -1, &dbStatement, NULL);
 
     // While the number isn't found and there are more lines to read
     while(found == false &&
@@ -69,7 +96,7 @@ bool Database::isMember(char* idNumber)  // Get parameters later
 	{
 		continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
 
-		if(sqlite3_column_int(dbStatement, 0) == compare_this_number)
+		if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
 			found = true;
 	}
 
@@ -80,29 +107,30 @@ bool Database::isMember(char* idNumber)  // Get parameters later
     return found;
 }
 
-bool Database::isAttending(char* idNumber)
+void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses)
 {
-        // Convert from char* to int
-    int compare_this_number = atoi(idNumber);
     bool found = false;
-    int continueStep = 100;  //sqlite3_step() returns 100 if there is another row to be read
 
-    // Prepare dbStatement
-    sqlite3_prepare(db, "select ID from Attendance", -1, &dbStatement, NULL);
+    // Prepare query
+    sqlite3_prepare(db, "SELECT cardNumber, name, idNumber, courses FROM Members", -1, &dbStatement, NULL);
 
-    // While the number isn't found and there are more lines to read
-    while(found == false &&
-          continueStep == 100)
-	{
-		continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
+    // Find the person (we've already checked that they are a Member from the isMember function!)
+    while(found == false)
+    {
+        sqlite3_step(dbStatement);
 
-		if(sqlite3_column_int(dbStatement, 0) == compare_this_number)
-			found = true;
-	}
+        if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
+        {
+            found = true;
+        }
+    }
 
-    // Close dbStatement
-	sqlite3_finalize(dbStatement);
+    // Insert values we want into the strings we passed in
+    strcat(name, (char*)sqlite3_column_text(dbStatement, 1));
+	strcat(idNumber, (char*)sqlite3_column_text(dbStatement, 2));
+    strcat(courses, (char*)sqlite3_column_text(dbStatement, 3));
 
-    // Did we find the number?
-    return found;
+    // Close statement
+    sqlite3_finalize(dbStatement);
+
 }
