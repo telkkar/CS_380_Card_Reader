@@ -9,7 +9,7 @@
 // Includes
 #include <Windows.h>
 #include <CommCtrl.h>
-#include <Database.h>
+#include "Database.h"
 
 // Defines
 #define X_CARD 10
