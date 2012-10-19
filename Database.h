@@ -1,6 +1,6 @@
 
-#ifndef _DATABASE_H
-#define _DATABASE_H
+#ifndef H_DATABASE
+#define H_DATABASE
 
 #include "sqlite3.h"
 
@@ -15,12 +15,10 @@ public:
     bool isAttending(char* cardNumber);
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 
-
 private:
     sqlite3* db;
     sqlite3_stmt* dbStatement;
 
-
 };
 
-#endif // _DATABASE.H
+#endif // H_DATABASE
