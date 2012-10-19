@@ -9,22 +9,8 @@
 // Includes
 #include <Windows.h>
 #include <CommCtrl.h>
+#include "defines.cpp"
 #include "Database.h"
-
-// Defines
-#define X_CARD 10
-#define Y_CARD 10
-#define X_NAME 10
-#define Y_NAME 50
-#define X_IDNUMBER 10
-#define Y_IDNUMBER 75
-#define X_COURSES 10
-#define Y_COURSES 100
-
-#define ID_EDIT 101
-#define ID_MENU_FILE_EXIT 500
-#define ID_MENU_MODE_OPERATOR 9000
-#define ID_MENU_MODE_ATTENDANCE 9001
 
 
 // Callback function prototypes
@@ -147,8 +133,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                                      WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
                                      100,  // X from top left
                                      Y_NAME,  // Y from top left
-                                     200,  //Width
-                                     20,
+                                     200,  // Width
+                                     20,   // Height
                                      hwnd,
                                      (HMENU) ID_EDIT,
                                      ((LPCREATESTRUCT) lParam)->hInstance,
@@ -160,8 +146,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                                      WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
                                      100,  // X from top left
                                      Y_IDNUMBER,  // Y from top left
-                                     200,  //Width
-                                     20,
+                                     200,  // Width
+                                     20,   // Height
                                      hwnd,
                                      (HMENU) ID_EDIT,
                                      ((LPCREATESTRUCT) lParam)->hInstance,
@@ -173,8 +159,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                                      WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
                                      100,  // X from top left
                                      Y_COURSES,  // Y from top left
-                                     200,  //Width
-                                     20,
+                                     200,  // Width
+                                     20,   // Height
                                      hwnd,
                                      (HMENU) ID_EDIT,
                                      ((LPCREATESTRUCT) lParam)->hInstance,
@@ -287,13 +273,12 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
         {
             if(wParam == VK_RETURN && GetWindowTextLength(hWnd) != 0)
             {
-				char name[40] = "";
-				char idNumber[40] = "";
-				char courses[50] = "";
-				char cardNumber[17] = "";
-				GetWindowText(hWnd, cardNumber, 16);
+				char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
+				char name[LENGTH_NAME + 1] = "";
+				char idNumber[LENGTH_MSU_ID + 1] = "";
+				char courses[LENGTH_COURSES + 1] = "";
 
-				//MessageBox(hWnd, (LPCTSTR)cardNumber, (LPCTSTR) "Data in text box", MB_OK|MB_ICONEXCLAMATION);
+				GetWindowText(hWnd, cardNumber, LENGTH_CARD_NUMBER);
 
 				if(db.isMember(cardNumber))
 				{
@@ -304,7 +289,7 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 				}
 				else
 				{
-					// ADD missing information into the database (member's table)
+					// ADD missing information into the database (members table)
 				}
 				
 				SendMessage(hwnd_CardNumberEditBox, EM_SETSEL, 0, -1);

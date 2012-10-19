@@ -2,6 +2,7 @@
 #include <string.h>
 #include "sqlite3.h"
 #include "Database.h"
+#include "defines.cpp"
 
 using namespace std;
 
@@ -20,12 +21,19 @@ Database::~Database()
 void Database::addMember(char* cardNumber, char* name, char* idNumber, char* courses)
 {
     // Prepare sqlStatement
-    // NEED TO ADD IN REST OF PARAMETERS
-    char sqlStatement[256] = "";
-    strcat(sqlStatement, "INSERT INTO Members VALUES(");
+    char sqlStatement[28 +
+					  LENGTH_CARD_NUMBER + 4 +
+					  LENGTH_NAME + 4 +
+					  LENGTH_MSU_ID + 4 +
+					  LENGTH_COURSES + 2] = "";
+    strcat(sqlStatement, "INSERT INTO Members VALUES('");
     strcat(sqlStatement, cardNumber);
-    strcat(sqlStatement, ", '");
+    strcat(sqlStatement, "', '");
     strcat(sqlStatement, name);
+	strcat(sqlStatement, "', '");
+	strcat(sqlStatement, idNumber);
+    strcat(sqlStatement, "', '");
+	strcat(sqlStatement, courses);
     strcat(sqlStatement, "')");
 
     // Use sqlStatement
@@ -39,12 +47,19 @@ void Database::addMember(char* cardNumber, char* name, char* idNumber, char* cou
 void Database::addAttendance(char* cardNumber, char* name, char* idNumber, char* courses)
 {
     // Prepare sqlStatement
-    // NEED TO ADD IN REST OF PARAMETERS
-    char sqlStatement[256] = "";
-    strcat(sqlStatement, "INSERT INTO Attendance VALUES(");
+    char sqlStatement[31 +
+					  LENGTH_CARD_NUMBER + 4 +
+					  LENGTH_NAME + 4 +
+					  LENGTH_MSU_ID + 4 +
+					  LENGTH_COURSES + 2] = "";
+    strcat(sqlStatement, "INSERT INTO Attendance VALUES('");
     strcat(sqlStatement, cardNumber);
-    strcat(sqlStatement, ", '");
+    strcat(sqlStatement, "', '");
     strcat(sqlStatement, name);
+	strcat(sqlStatement, "', '");
+	strcat(sqlStatement, idNumber);
+    strcat(sqlStatement, "', '");
+	strcat(sqlStatement, courses);
     strcat(sqlStatement, "')");
 
     // Use sqlStatement
