@@ -73,52 +73,62 @@ void Database::addAttendance(char* cardNumber, char* name, char* idNumber, char*
 bool Database::isMember(char* cardNumber)
 {
     bool found = false;
-    int continueStep = 100;  //sqlite3_step() returns 100 if there is another row to be read
+    int found_value = 0;
+
+    char sqlQuery[50 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Members WHERE cardNumber = ";
+										//+ 1 for the null terminator on string length
+    strcat(sqlQuery, cardNumber);
 
     // Prepare dbStatement
-    sqlite3_prepare(db, "SELECT cardNumber FROM Members", -1, &dbStatement, NULL);
+    sqlite3_prepare(db, sqlQuery, -1, &dbStatement, NULL);
 
-	continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
+    found_value = sqlite3_step(dbStatement);
+    // sqlite3_step returns SQLITE_ROW if an entry was found, SQLITE_DONE if not found
+    // SQLITE_ROW == 100, SQLITE_DONE = 101 (from defines on sqlite website.)
 
-	// While the number isn't found and there are more lines to read
-	while(continueStep == 100 && found == false)
-	{
-		if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
-			found = true;
-
-		continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
-
-	}
+    if(found_value == SQLITE_ROW)
+    {
+        found = true;
+    }
+    else
+    {
+        found = false;
+    }
 
     // Close dbStatement
 	sqlite3_finalize(dbStatement);
 
-    // Did we find the number?
     return found;
 }
 
 bool Database::isAttending(char* cardNumber)
 {
     bool found = false;
-    int continueStep = 100;  //sqlite3_step() returns 100 if there is another row to be read
+    int found_value = 0;
+
+    char sqlQuery[53 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Attendance WHERE cardNumber = ";
+										//+ 1 for the null terminator on string length
+    strcat(sqlQuery, cardNumber);
 
     // Prepare dbStatement
-    sqlite3_prepare(db, "SELECT cardNumber FROM Attendance", -1, &dbStatement, NULL);
+    sqlite3_prepare(db, sqlQuery, -1, &dbStatement, NULL);
 
-    // While the number isn't found and there are more lines to read
-    while(found == false &&
-          continueStep == 100)
-	{
-		continueStep = sqlite3_step(dbStatement);  //sqlite3_step() returns 100 if there is another row to be read after current
+    found_value = sqlite3_step(dbStatement);
+    // sqlite3_step returns SQLITE_ROW if an entry was found, SQLITE_DONE if not found
+    // SQLITE_ROW == 100, SQLITE_DONE = 101 (from defines on sqlite website.)
 
-		if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
-			found = true;
-	}
+    if(found_value == SQLITE_ROW)
+    {
+        found = true;
+    }
+    else
+    {
+        found = false;
+    }
 
     // Close dbStatement
 	sqlite3_finalize(dbStatement);
 
-    // Did we find the number?
     return found;
 }
 
@@ -130,7 +140,13 @@ void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char*
     sqlite3_prepare(db, "SELECT cardNumber, name, idNumber, courses FROM Members", -1, &dbStatement, NULL);
 
     // Find the person (we've already checked that they are a Member from the isMember function!)
-    while(found == false)
+	
+	/*** NOTE ***
+	 * Use the new code from the isMember functions to improve searching in this function
+	 */
+
+
+	while(found == false)
     {
         sqlite3_step(dbStatement);
 

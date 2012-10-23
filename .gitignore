@@ -40,6 +40,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.sln
 
 # Build results
 [Dd]ebug/
@@ -165,4 +166,4 @@ pip-log.txt
 
 # Binary Blobs (not sure if libraries are distributable under license)
 *.lib
-
+*.a

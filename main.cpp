@@ -278,7 +278,8 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 				char idNumber[LENGTH_MSU_ID + 1] = "";
 				char courses[LENGTH_COURSES + 1] = "";
 
-				GetWindowText(hWnd, cardNumber, LENGTH_CARD_NUMBER);
+				GetWindowText(hWnd, cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
+																	 // This is the reason for the + 1's at end of cardNumber cstring
 
 				if(db.isMember(cardNumber))
 				{
