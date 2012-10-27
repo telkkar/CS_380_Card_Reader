@@ -117,10 +117,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER,
-			100,  // X from top left
+			100,     // X from top left
 			Y_CARD,  // Y from top left
-			135,  //Width
-			20,
+			135,     // Width
+			20,		 // Height
 			hwnd,
 			(HMENU) ID_EDIT,
 			((LPCREATESTRUCT) lParam)->hInstance,
@@ -131,10 +131,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
-			100,  // X from top left
+			100,     // X from top left
 			Y_NAME,  // Y from top left
-			200,  // Width
-			20,   // Height
+			200,     // Width
+			20,      // Height
 			hwnd,
 			(HMENU) ID_EDIT,
 			((LPCREATESTRUCT) lParam)->hInstance,
@@ -183,7 +183,13 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		// End menu creation
 
 
-		// Subclass declarations
+		/***** Subclass declarations
+		 *	Subclassing our edit boxes makes it so we can incercept events
+		 *	(mainly the Enter key) and do something (different) with the event
+		 *	before it gets passed to the main window. This is what allows us to
+		 *	accept the enter key and have it process the input instead of entering
+		 *	nothing and doing nothing.
+		 */
 		SetWindowSubclass(hwnd_CardNumberEditBox, CardNumberEditBox, 0, 0);
 		/* Don't need these just yet
 		 *
@@ -197,10 +203,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		// Set focus to Card ID box
 		SetFocus(hwnd_CardNumberEditBox);
 	}
-	break;
+		break;
 	case WM_PAINT:
 	{
-		// Make some pretty text
+		// Make some text to the left side of the edit boxes
 		char cardID[] = "Card ID:";
 		char name[] = "Name:";
 		char idNumber[] = "ID Number:";
@@ -238,7 +244,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 		EndPaint(hwnd, &ps);
 	}
-	break;
+		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
@@ -264,6 +270,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 /**
  *  Callback function for CardNumberEditBox
+ *  Our CardNumberEditBox gets subclassed into this function
  */
 LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
