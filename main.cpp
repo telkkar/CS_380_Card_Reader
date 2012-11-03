@@ -46,7 +46,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 
 	/* The Window structure */
 	wincl.hInstance = hThisInstance;
-	wincl.lpszClassName = szClassName;
+	wincl.lpszClassName = (LPCSTR)szClassName;
 	wincl.lpfnWndProc = WindowProcedure;      /* This function is called by windows */
 	wincl.style = CS_DBLCLKS;                 /* Catch double-clicks */
 	wincl.cbSize = sizeof (WNDCLASSEX);
@@ -68,8 +68,8 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 	/* The class is registered, let's create the program*/
 	hwnd = CreateWindowEx (
 		0,                   /* Extended possibilites for variation */
-		szClassName,         /* Classname */
-		"CS 380 - Card Reader Application - Group 2",       /* Title Text */
+		(LPCSTR)szClassName,         /* Classname */
+		(LPCSTR)"CS 380 - Card Reader Application - Group 2",       /* Title Text */
 		WS_OVERLAPPEDWINDOW, /* default window */
 		CW_USEDEFAULT,       /* Windows decides the position */
 		CW_USEDEFAULT,       /* where the window ends up on the screen */
@@ -171,13 +171,13 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		hMenu = CreateMenu();
 
 		hSubMenu = CreatePopupMenu();
-		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "Program");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_FILE_EXIT, "Exit");
+		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Program");
+		AppendMenu(hSubMenu, MF_STRING, ID_MENU_FILE_EXIT, (LPCSTR)"Exit");
 
 		hSubMenu = CreatePopupMenu();
-		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, "Mode");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_ATTENDANCE, "Attendance");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_OPERATOR, "Operator");
+		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Mode");
+		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_ATTENDANCE, (LPCSTR)"Attendance");
+		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_OPERATOR, (LPCSTR)"Operator");
 
 		SetMenu(hwnd, hMenu);
 		// End menu creation
@@ -218,28 +218,28 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		TextOut(hdc,
 		        X_CARD,          /* X */
 		        Y_CARD,          /* Y */
-		        cardID,
+		        (LPCSTR)cardID,
 		        strlen(cardID) /* Number of chars */);
 
 		// Name text
 		TextOut(hdc,
 		        X_NAME,          /* X */
 		        Y_NAME,          /* Y */
-		        name,
+		        (LPCSTR)name,
 		        strlen(name) /* Number of chars */);
 
 		// ID number text
 		TextOut(hdc,
 		        X_IDNUMBER,          /* X */
 		        Y_IDNUMBER,          /* Y */
-		        idNumber,
+		        (LPCSTR)idNumber,
 		        strlen(idNumber) /* Number of chars */);
 
 		// Courses text
 		TextOut(hdc,
 		        X_COURSES,          /* X */
 		        Y_COURSES,          /* Y */
-		        courses,
+		        (LPCSTR)courses,
 		        strlen(courses) /* Number of chars */);
 
 		EndPaint(hwnd, &ps);
@@ -285,15 +285,15 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 			char idNumber[LENGTH_MSU_ID + 1] = "";
 			char courses[LENGTH_COURSES + 1] = "";
 
-			GetWindowText(hWnd, cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
+			GetWindowText(hWnd, (LPSTR)cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
 			// This is the reason for the + 1's at end of cardNumber cstring
 
 			if(db.isMember(cardNumber))
 			{
 				db.getMemberInfo(cardNumber, name, idNumber, courses);
-				SetWindowText(hwnd_NameEditBox, name);
-				SetWindowText(hwnd_IDNumberEditBox, idNumber);
-				SetWindowText(hwnd_CoursesEditBox, courses);
+				SetWindowText(hwnd_NameEditBox, (LPCSTR)name);
+				SetWindowText(hwnd_IDNumberEditBox, (LPCSTR)idNumber);
+				SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
 			}
 			else
 			{
