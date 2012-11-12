@@ -17,7 +17,7 @@
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK CardNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 
-BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 /* Don't need these just yet
    LRESULT CALLBACK NameEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
    LRESULT CALLBACK IDNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
@@ -298,12 +298,11 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 				SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
 			}
 			else
-			{
+			{	// ADD missing information into the database (members table)
 				DialogBox(GetModuleHandle(NULL),
-						  MAKEINTRESOURCE(IDD_DLGFIRST),
+						  MAKEINTRESOURCE(IDD_DLG_ADD_MEMBER),
 						  hWnd,
-						  AboutDlgProc);
-				// ADD missing information into the database (members table)
+						  AddMemberDlgProc);
 			}
 				
 			SendMessage(hwnd_CardNumberEditBox, EM_SETSEL, 0, -1);
@@ -327,24 +326,52 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 }
 
 
-BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     switch(Message)
     {
         case WM_INITDIALOG:
+		{
+			// Get the cardNumber
+			char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
+			GetWindowText(hwnd_CardNumberEditBox, (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
 
+			// Place it in the first edit control in the dialog box
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARD_NUMBER), (LPCSTR)cardNumber);
+
+			// Set focus to the name box
+			PostMessage(hwnd, WM_NEXTDLGCTL, FALSE, FALSE);
+		}
         return TRUE;
         case WM_COMMAND:
             switch(LOWORD(wParam))
             {
                 case IDOK:
+				{
+					// Add info to database
+					char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
+					char name[LENGTH_NAME + 1] = "";
+					char idNumber[LENGTH_MSU_ID + 1] = "";
+					char courses[LENGTH_COURSES + 1] = "";
+
+					// Get the info from the dialog edit controls
+					GetWindowText(hwnd_CardNumberEditBox, (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_ID_NUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
+					
+					// Add them to the members table, and the attendance table
+					db.addMember(cardNumber, name, idNumber, courses);
+					db.addAttendance(cardNumber, name, idNumber, courses);
+
                     EndDialog(hwnd, IDOK);
+				}
                 break;
-                case IDCANCEL:
+                case IDCANCEL: // Currently not used
                     EndDialog(hwnd, IDCANCEL);
                 break;
             }
-        break;
+		break;
         default:
             return FALSE;
     }
