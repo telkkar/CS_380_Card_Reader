@@ -9,13 +9,15 @@
 // Includes
 #include <Windows.h>
 #include <CommCtrl.h>
-#include "defines.cpp"
+#include "defines.h"
 #include "Database.h"
 
 
 // Callback function prototypes
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK CardNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
+
+BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 /* Don't need these just yet
    LRESULT CALLBACK NameEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
    LRESULT CALLBACK IDNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
@@ -144,10 +146,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
-			100,  // X from top left
+			100,		 // X from top left
 			Y_IDNUMBER,  // Y from top left
-			200,  // Width
-			20,   // Height
+			200,		 // Width
+			20,			 // Height
 			hwnd,
 			(HMENU) ID_EDIT,
 			((LPCREATESTRUCT) lParam)->hInstance,
@@ -157,10 +159,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
-			100,  // X from top left
+			100,		// X from top left
 			Y_COURSES,  // Y from top left
-			200,  // Width
-			20,   // Height
+			200,		// Width
+			20,			// Height
 			hwnd,
 			(HMENU) ID_EDIT,
 			((LPCREATESTRUCT) lParam)->hInstance,
@@ -297,6 +299,10 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 			}
 			else
 			{
+				DialogBox(GetModuleHandle(NULL),
+						  MAKEINTRESOURCE(IDD_DLGFIRST),
+						  hWnd,
+						  AboutDlgProc);
 				// ADD missing information into the database (members table)
 			}
 				
@@ -320,6 +326,30 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	return DefSubclassProc(hWnd, message, wParam, lParam);
 }
 
+
+BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+    switch(Message)
+    {
+        case WM_INITDIALOG:
+
+        return TRUE;
+        case WM_COMMAND:
+            switch(LOWORD(wParam))
+            {
+                case IDOK:
+                    EndDialog(hwnd, IDOK);
+                break;
+                case IDCANCEL:
+                    EndDialog(hwnd, IDCANCEL);
+                break;
+            }
+        break;
+        default:
+            return FALSE;
+    }
+    return TRUE;
+}
 
 /** THESE FOLLOWING FUNCTIONS ARE CURRENTLY UNNEEDED
  *

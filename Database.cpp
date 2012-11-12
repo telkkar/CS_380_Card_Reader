@@ -2,7 +2,7 @@
 #include <string.h>
 #include "sqlite3.h"
 #include "Database.h"
-#include "defines.cpp"
+#include "defines.h"
 
 using namespace std;
 

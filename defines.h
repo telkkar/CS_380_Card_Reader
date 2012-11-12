@@ -11,10 +11,12 @@
 #define X_COURSES 10
 #define Y_COURSES 100
 
+// Defines for various flags
 #define ID_EDIT 101
 #define ID_MENU_FILE_EXIT 500
 #define ID_MENU_MODE_OPERATOR 9000
 #define ID_MENU_MODE_ATTENDANCE 9001
+#define IDD_DLGFIRST 102
 
 // Length of strings accepted by edit boxes
 #define LENGTH_CARD_NUMBER 16
