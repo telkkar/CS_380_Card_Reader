@@ -7,17 +7,17 @@
 class Database
 {
 public:
-    Database();
-    ~Database();
-    void addAttendance(char* cardNumber, char* name, char* idNumber, char* courses);
-    void addMember(char* cardNumber, char* name, char* idNumber, char* courses);
-    bool isMember(char* cardNumber);
-    bool isAttending(char* cardNumber);
+	Database();
+	~Database();
+	void addAttendance(char* cardNumber, char* name, char* idNumber, char* courses);
+	void addMember(char* cardNumber, char* name, char* idNumber, char* courses);
+	bool isMember(char* cardNumber);
+	bool isAttending(char* cardNumber);
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 
 private:
-    sqlite3* db;
-    sqlite3_stmt* dbStatement;
+	sqlite3* db;
+	sqlite3_stmt* dbStatement;
 
 };
 
