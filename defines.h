@@ -16,13 +16,13 @@
 #define ID_MENU_FILE_EXIT		500
 #define ID_MENU_MODE_OPERATOR	9000
 #define ID_MENU_MODE_ATTENDANCE 9001
+#define ID_LISTBOX				103
 #define IDD_DLG_ADD_MEMBER		102
 
 #ifndef IDC_STATIC
 #define IDC_STATIC				(-1)
 #endif
 #define IDD_DIALOG1             100
-//#define IDOK                    1000
 #define IDC_EDIT_CARD_NUMBER	1002
 #define IDC_EDIT_NAME           1003
 #define IDC_EDIT_ID_NUMBER      1004

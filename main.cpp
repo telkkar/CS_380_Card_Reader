@@ -30,6 +30,7 @@ HWND hwnd_CardNumberEditBox;
 HWND hwnd_NameEditBox;
 HWND hwnd_IDNumberEditBox;
 HWND hwnd_CoursesEditBox;
+HWND hwnd_AttendanceListBox;
 // Database Object
 Database db;
 
@@ -167,6 +168,59 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			(HMENU) ID_EDIT,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
+
+		hwnd_AttendanceListBox = CreateWindow(
+			WC_LISTVIEW,
+			NULL,
+			WS_CHILD | WS_VISIBLE | WS_VSCROLL | LVS_REPORT,
+			400,		// X from top left
+			0,			// Y from top left
+			380,		// Width
+			450,		// Height
+			hwnd,
+			(HMENU) ID_LISTBOX,
+			((LPCREATESTRUCT) lParam)->hInstance,
+			NULL);
+
+		ListView_SetExtendedListViewStyle(hwnd_AttendanceListBox, LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
+
+		LVCOLUMN lvc = { 0 };
+		        LVITEM   lv  = { 0 };
+
+		lvc.mask = LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH  | LVCF_FMT;
+        lvc.fmt  = LVCFMT_LEFT;
+
+        lvc.iSubItem = 0;
+        lvc.cx       = 50;
+        lvc.pszText  = TEXT("Name");
+        ListView_InsertColumn(hwnd_AttendanceListBox, 0, &lvc);
+ 
+        lvc.iSubItem = 1;
+        lvc.cx       = 100;
+        lvc.pszText  = TEXT("ID Number");
+        ListView_InsertColumn(hwnd_AttendanceListBox, 1, &lvc);
+ 
+        lvc.iSubItem = 2;
+        lvc.cx       = 230;
+        lvc.pszText  = TEXT("Courses");
+        ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
+ 
+
+		/* Add some rows.
+        lv.iItem = 0;
+        ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+        ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, TEXT("Friends"));
+        ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, TEXT("500"));
+        ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, TEXT("Alright"));
+        ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
+ 
+        lv.iItem = 1;
+        ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+        ListView_SetItemText(hwnd_AttendanceListBox, 1, 1, TEXT("Survivor"));
+        ListView_SetItemText(hwnd_AttendanceListBox, 1, 2, TEXT("970,000"));
+        ListView_SetItemText(hwnd_AttendanceListBox, 1, 3, TEXT("Please, not again"));
+        ListView_SetCheckState(hwnd_AttendanceListBox, 1, FALSE);
+		*/
 
 
 		// Start the menu creation
