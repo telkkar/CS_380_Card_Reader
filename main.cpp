@@ -3,6 +3,11 @@
  *  Description of program: This is the prototype GUI for Group 2's CS 380 Card Scanning Project
  *    It is intended to be a evolutionary prototype.
  *
+ *	WILLIAM NOTE: Get rid of all these global handles, you fool! 
+ *		Use something like this GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX)
+ *            FindWindow(className, windowName) returns handle to *WINDOW* with those names
+ *            GetDlgItem(handle of parent, #id of control) returns handle to *CONTROL*
+ *
  */
 
 
@@ -30,7 +35,6 @@ HWND hwnd_CardNumberEditBox;
 HWND hwnd_NameEditBox;
 HWND hwnd_IDNumberEditBox;
 HWND hwnd_CoursesEditBox;
-HWND hwnd_AttendanceListBox;
 // Database Object
 Database db;
 
@@ -169,23 +173,29 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
-		hwnd_AttendanceListBox = CreateWindow(
+		// *****************************************
+		// ***** This starts list box creation *****
+		// *****************************************
+		HWND hwnd_AttendanceListBox = CreateWindow(
 			WC_LISTVIEW,
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_VSCROLL | LVS_REPORT,
-			400,		// X from top left
+			380,		// X from top left
 			0,			// Y from top left
-			380,		// Width
+			400,		// Width
 			450,		// Height
 			hwnd,
 			(HMENU) ID_LISTBOX,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
+		// Will this ever work?
+		ShowScrollBar(hwnd_AttendanceListBox, SB_VERT, true);
+
+		// Add extended view styles to the list box
 		ListView_SetExtendedListViewStyle(hwnd_AttendanceListBox, LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 
 		LVCOLUMN lvc = { 0 };
-		        LVITEM   lv  = { 0 };
 
 		lvc.mask = LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH  | LVCF_FMT;
         lvc.fmt  = LVCFMT_LEFT;
@@ -204,24 +214,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         lvc.cx       = 230;
         lvc.pszText  = TEXT("Courses");
         ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
- 
 
-		/* Add some rows.
-        lv.iItem = 0;
-        ListView_InsertItem(hwnd_AttendanceListBox, &lv);
-        ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, TEXT("Friends"));
-        ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, TEXT("500"));
-        ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, TEXT("Alright"));
-        ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
- 
-        lv.iItem = 1;
-        ListView_InsertItem(hwnd_AttendanceListBox, &lv);
-        ListView_SetItemText(hwnd_AttendanceListBox, 1, 1, TEXT("Survivor"));
-        ListView_SetItemText(hwnd_AttendanceListBox, 1, 2, TEXT("970,000"));
-        ListView_SetItemText(hwnd_AttendanceListBox, 1, 3, TEXT("Please, not again"));
-        ListView_SetCheckState(hwnd_AttendanceListBox, 1, FALSE);
-		*/
-
+		// ***************************************
+		// ***** This ends list box creation *****
+		// ***************************************
 
 		// Start the menu creation
 		hMenu = CreateMenu();
@@ -350,6 +346,17 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 				SetWindowText(hwnd_NameEditBox, (LPCSTR)name);
 				SetWindowText(hwnd_IDNumberEditBox, (LPCSTR)idNumber);
 				SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
+
+				// Handle to List box found
+				HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX);
+				LVITEM   lv  = { 0 };  // No idea what this does, but works
+
+				// Add new entry to the AttendanceListBox
+				ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)name);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)idNumber);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
+				ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 			}
 			else
 			{	// ADD missing information into the database (members table)
@@ -417,6 +424,23 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					// Add them to the members table, and the attendance table
 					db.addMember(cardNumber, name, idNumber, courses);
 					db.addAttendance(cardNumber, name, idNumber, courses);
+
+					// Handle to List box found
+					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX);
+					LVITEM   lv  = { 0 };
+
+					// Add user to AttendanceListBox in main window
+					ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)name);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)idNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
+					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
+
+					// Add the information into the edit boxes in main window
+					SetWindowText(hwnd_CardNumberEditBox, (LPCSTR)cardNumber);
+					SetWindowText(hwnd_NameEditBox, (LPCSTR)name);
+					SetWindowText(hwnd_IDNumberEditBox, (LPCSTR)idNumber);
+					SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
 
                     EndDialog(hwnd, IDOK);
 				}
