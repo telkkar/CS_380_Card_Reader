@@ -1,3 +1,36 @@
+/**
+ *	Course:					CS 380
+ *	Group:					Group 2 - Card Reader Application Group
+ *	Group Members:			Dylan, John, William
+ *	Description of Project:
+ *		This is a card scanning program that accepts input in the form of card
+ *		numbers. When a user scans his/her card, the program will record his/
+ *		her attendance. If the program doesn't know who the user is, the user
+ *		is prompted for his/her information.
+ */
+
+/**
+ *	Header Block: Dialog Box Resource File
+ *	Module Name: 
+ *		Dialog Box Resource Module
+ *	Authors:
+ *		Dylan, John, William
+ *	Where it fits:
+ *		This is the definition for the dialog boxes used by the GUI.
+ *	When it was written, and revised:
+ *		Continuous revision, and revisement (see github commit history)
+ *	Why it exists:
+ *		Defines the structure/style of the Dialog Boxes
+ *	How it uses datastructures, algorithms, and control:
+ *		N/A
+ */
+
+/**
+ *	NOTES/TODO: 
+ *	- Need a dialog box for edit functionality
+ *
+ */
+
 #include "windows.h"
 #include "defines.h"
 

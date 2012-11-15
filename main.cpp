@@ -1,10 +1,37 @@
 /**
- *  Course: CS 380
- *  Description of program: This is the prototype GUI for Group 2's CS 380 Card Scanning Project
- *    It is intended to be a evolutionary prototype.
- *
- *	WILLIAM NOTE: Get rid of all these global handles, you fool! 
- *		Use something like this GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX)
+ *	Course:					CS 380
+ *	Group:					Group 2 - Card Reader Application Group
+ *	Group Members:			Dylan, John, William
+ *	Description of Project:
+ *		This is a card scanning program that accepts input in the form of card
+ *		numbers. When a user scans his/her card, the program will record his/
+ *		her attendance. If the program doesn't know who the user is, the user
+ *		is prompted for his/her information.
+ */
+
+/**
+ *	Header Block: GUI Module
+ *	Module Name: 
+ *		GUI Module
+ *	Authors:
+ *		Dylan, John, William
+ *	Where it fits:
+ *		This module houses the main control of the program. All main logic is
+ *		in this module.
+ *	When it was written, and revised:
+ *		Continuous revision, and revisement (see github commit history)
+ *	Why it exists:
+ *		This is the module that handles the GUI. We decided we wanted a GUI,
+ *		therefore we have this module.
+ *	How it uses datastructures, algorithms, and control:
+ *		Everything is still messy, so everything is unpolished. See the state
+ *		diagrams if you you want to know.
+ */
+
+/**
+ *	NOTES/TODO: 
+ *	- Get rid of all these global handles! 
+ *		-Use something like this GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX)
  *            FindWindow(className, windowName) returns handle to *WINDOW* with those names
  *            GetDlgItem(handle of parent, #id of control) returns handle to *CONTROL*
  *

@@ -1,3 +1,38 @@
+/**
+ *	Course:					CS 380
+ *	Group:					Group 2 - Card Reader Application Group
+ *	Group Members:			Dylan, John, William
+ *	Description of Project:
+ *		This is a card scanning program that accepts input in the form of card
+ *		numbers. When a user scans his/her card, the program will record his/
+ *		her attendance. If the program doesn't know who the user is, the user
+ *		is prompted for his/her information.
+ */
+
+/**
+ *	Header Block: defines Header
+ *	Module Name: 
+ *		defines Header
+ *	Authors:
+ *		Dylan, John, William
+ *	Where it fits:
+ *		This file has the defines for values used elsewhere in the program.
+ *	When it was written, and revised:
+ *		Continuous revision, and revisement (see github commit history)
+ *	Why it exists:
+ *		Collective place for the defines.
+ *	How it uses datastructures, algorithms, and control:
+ *		N/A
+ */
+
+/**
+ *	NOTES/TODO: 
+ *	- Clean up the defines values so they make sense
+ *	- Clean up structure
+ *	- Rename where appropriate
+ *
+ */
+
 #ifndef CPP_DEFINES
 #define CPP_DEFINES
 
