@@ -39,11 +39,11 @@
 
 
 // Includes
-#include <Windows.h>
-#include <CommCtrl.h>
 #include "defines.h"
 #include "Database.h"
 
+#include <Windows.h>
+#include <CommCtrl.h>
 
 // Callback function prototypes
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -58,11 +58,6 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 
 // Global Variables
 char szClassName[] = "Scanner Window";
-HWND hwnd_CardNumberEditBox;
-HWND hwnd_NameEditBox;
-HWND hwnd_IDNumberEditBox;
-HWND hwnd_CoursesEditBox;
-// Database Object
 Database db;
 
 /**
@@ -147,7 +142,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_CREATE:
 	{
 		// Create items on the window
-		hwnd_CardNumberEditBox = CreateWindow(
+		HWND hwnd_CardNumberEditBox = CreateWindow(
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER,
@@ -156,12 +151,12 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			135,     // Width
 			20,		 // Height
 			hwnd,
-			(HMENU) ID_EDIT,
+			(HMENU) IDC_EDIT_CARDNUMBER,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
 
-		hwnd_NameEditBox = CreateWindow(
+		HWND hwnd_NameEditBox = CreateWindow(
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
@@ -170,11 +165,11 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			200,     // Width
 			20,      // Height
 			hwnd,
-			(HMENU) ID_EDIT,
+			(HMENU) IDC_EDIT_NAME,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
-		hwnd_IDNumberEditBox = CreateWindow(
+		HWND hwnd_IDNumberEditBox = CreateWindow(
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
@@ -183,11 +178,11 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			200,		 // Width
 			20,			 // Height
 			hwnd,
-			(HMENU) ID_EDIT,
+			(HMENU) IDC_EDIT_IDNUMBER,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
-		hwnd_CoursesEditBox = CreateWindow(
+		HWND hwnd_CoursesEditBox = CreateWindow(
 			TEXT("Edit"),
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
@@ -196,7 +191,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			200,		// Width
 			20,			// Height
 			hwnd,
-			(HMENU) ID_EDIT,
+			(HMENU) IDC_EDIT_COURSES,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
@@ -206,13 +201,13 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		HWND hwnd_AttendanceListBox = CreateWindow(
 			WC_LISTVIEW,
 			NULL,
-			WS_CHILD | WS_VISIBLE | WS_VSCROLL | LVS_REPORT,
+			WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT,
 			380,		// X from top left
 			0,			// Y from top left
 			400,		// Width
 			450,		// Height
 			hwnd,
-			(HMENU) ID_LISTBOX,
+			(HMENU) IDC_LISTBOX,
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
@@ -251,12 +246,12 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 		hSubMenu = CreatePopupMenu();
 		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Program");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_FILE_EXIT, (LPCSTR)"Exit");
+		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_FILE_EXIT, (LPCSTR)"Exit");
 
 		hSubMenu = CreatePopupMenu();
 		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Mode");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_ATTENDANCE, (LPCSTR)"Attendance");
-		AppendMenu(hSubMenu, MF_STRING, ID_MENU_MODE_OPERATOR, (LPCSTR)"Operator");
+		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_MODE_ATTENDANCE, (LPCSTR)"Attendance");
+		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_MODE_OPERATOR, (LPCSTR)"Operator");
 
 		SetMenu(hwnd, hMenu);
 		// End menu creation
@@ -327,7 +322,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case ID_MENU_FILE_EXIT:
+		case IDM_MENU_FILE_EXIT:
 		{
 			PostMessage(hwnd, WM_CLOSE, 0, 0);
 			break;
@@ -351,31 +346,32 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
  *  Callback function for CardNumberEditBox
  *  Our CardNumberEditBox gets subclassed into this function
  */
-LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
 	switch (message)
 	{
 	case WM_KEYDOWN:
 	{
-		if(wParam == VK_RETURN && GetWindowTextLength(hWnd) != 0)
+		if(wParam == VK_RETURN && GetWindowTextLength(hwnd) != 0)
 		{
 			char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
 			char name[LENGTH_NAME + 1] = "";
 			char idNumber[LENGTH_MSU_ID + 1] = "";
 			char courses[LENGTH_COURSES + 1] = "";
 
-			GetWindowText(hWnd, (LPSTR)cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
-			// This is the reason for the + 1's at end of cardNumber cstring
+			GetWindowText(hwnd, (LPSTR)cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
+																		// This is the reason for the + 1's at end of cardNumber cstring
 
 			if(db.isMember(cardNumber))
 			{
 				db.getMemberInfo(cardNumber, name, idNumber, courses);
-				SetWindowText(hwnd_NameEditBox, (LPCSTR)name);
-				SetWindowText(hwnd_IDNumberEditBox, (LPCSTR)idNumber);
-				SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
+				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_NAME), (LPCSTR)name);
+				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
+				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_COURSES), (LPCSTR)courses);
 
 				// Handle to List box found
-				HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX);
+				HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
+
 				LVITEM   lv  = { 0 };  // No idea what this does, but works
 
 				// Add new entry to the AttendanceListBox
@@ -388,13 +384,13 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 			else
 			{	// ADD missing information into the database (members table)
 				DialogBox(GetModuleHandle(NULL),
-						  MAKEINTRESOURCE(IDD_DLG_ADD_MEMBER),
-						  hWnd,
+						  MAKEINTRESOURCE(IDD_DLG_ADDMEMBER),
+						  hwnd,
 						  AddMemberDlgProc);
 			}
-				
-			SendMessage(hwnd_CardNumberEditBox, EM_SETSEL, 0, -1);
-			SetFocus(hwnd_CardNumberEditBox);
+
+			SendMessage(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), EM_SETSEL, 0, -1);
+			SetFocus(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER));
 		}
 
 		return true;
@@ -410,7 +406,7 @@ LRESULT CALLBACK CardNumberEditBox(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		break;
 	}
 
-	return DefSubclassProc(hWnd, message, wParam, lParam);
+	return DefSubclassProc(hwnd, message, wParam, lParam);
 }
 
 
@@ -422,10 +418,10 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 		{
 			// Get the cardNumber
 			char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
-			GetWindowText(hwnd_CardNumberEditBox, (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+			GetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
 
 			// Place it in the first edit control in the dialog box
-			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARD_NUMBER), (LPCSTR)cardNumber);
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPCSTR)cardNumber);
 
 			// Set focus to the name box
 			PostMessage(hwnd, WM_NEXTDLGCTL, FALSE, FALSE);
@@ -442,10 +438,10 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					char idNumber[LENGTH_MSU_ID + 1] = "";
 					char courses[LENGTH_COURSES + 1] = "";
 
-					// Get the info from the dialog edit controls
-					GetWindowText(hwnd_CardNumberEditBox, (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+					// Get the info from the dialog edit controls in the dialog box
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_ID_NUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
 					
 					// Add them to the members table, and the attendance table
@@ -453,7 +449,7 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					db.addAttendance(cardNumber, name, idNumber, courses);
 
 					// Handle to List box found
-					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX);
+					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
 					LVITEM   lv  = { 0 };
 
 					// Add user to AttendanceListBox in main window
@@ -463,11 +459,11 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
 					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
-					// Add the information into the edit boxes in main window
-					SetWindowText(hwnd_CardNumberEditBox, (LPCSTR)cardNumber);
-					SetWindowText(hwnd_NameEditBox, (LPCSTR)name);
-					SetWindowText(hwnd_IDNumberEditBox, (LPCSTR)idNumber);
-					SetWindowText(hwnd_CoursesEditBox, (LPCSTR)courses);
+					// Change the information of the edit boxes in main window
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), (LPCSTR)cardNumber);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_NAME), (LPCSTR)name);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_COURSES), (LPCSTR)courses);
 
                     EndDialog(hwnd, IDOK);
 				}

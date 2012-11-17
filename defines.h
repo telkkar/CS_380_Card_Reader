@@ -33,8 +33,8 @@
  *
  */
 
-#ifndef CPP_DEFINES
-#define CPP_DEFINES
+#ifndef H_DEFINES
+#define H_DEFINES
 
 // X and Y coordinates for text boxes
 #define X_CARD					10
@@ -46,22 +46,30 @@
 #define X_COURSES				10
 #define Y_COURSES				100
 
-// Defines for various flags
-#define ID_EDIT					101
-#define ID_MENU_FILE_EXIT		500
-#define ID_MENU_MODE_OPERATOR	9000
-#define ID_MENU_MODE_ATTENDANCE 9001
-#define ID_LISTBOX				103
-#define IDD_DLG_ADD_MEMBER		102
-
-#ifndef IDC_STATIC
+/*******************************************
+ * Defines for flags/messages
+ * Each section increases X by 1, where 1X00
+ *******************************************/
+// ID for Controls (IDC)
+#define IDC_EDIT_CARDNUMBER		1000
+#define IDC_EDIT_NAME			1001
+#define IDC_EDIT_IDNUMBER		1002
+#define IDC_EDIT_COURSES		1003
+#define IDC_LISTBOX				1004
 #define IDC_STATIC				(-1)
-#endif
-#define IDD_DIALOG1             100
-#define IDC_EDIT_CARD_NUMBER	1002
-#define IDC_EDIT_NAME           1003
-#define IDC_EDIT_ID_NUMBER      1004
-#define IDC_EDIT_COURSES        1005
+
+// ID for Menus (IDM)
+#define IDM_MENU_FILE_EXIT		1100
+#define IDM_MENU_MODE_OPERATOR	1101
+#define IDM_MENU_MODE_ATTENDANCE 1102
+
+// ID For Dialog Boxes
+#define IDD_DLG_ADDMEMBER		1200
+
+/*******************************************
+ * End defines for flags/messages
+ *******************************************/
+
 
 // Length of strings accepted by edit boxes
 #define LENGTH_CARD_NUMBER		16
@@ -69,4 +77,4 @@
 #define LENGTH_MSU_ID			8
 #define LENGTH_COURSES			80
 
-#endif // CPP_DEFINES
+#endif // H_DEFINES
