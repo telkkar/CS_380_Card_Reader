@@ -30,11 +30,9 @@
 
 /**
  *	NOTES/TODO: 
- *	- Get rid of all these global handles! 
- *		-Use something like this GetDlgItem(FindWindow(szClassName, NULL), ID_LISTBOX)
- *            FindWindow(className, windowName) returns handle to *WINDOW* with those names
- *            GetDlgItem(handle of parent, #id of control) returns handle to *CONTROL*
- *
+ *		-Function: EditMemberDlgProc, under case: IDOK
+ *			- Follow steps outlined right under IDOK case statement
+ *		-If you want to add enter functionality in dialog box, you'll have to subclass boxes in dialog box
  */
 
 
@@ -50,6 +48,7 @@ LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK CardNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 
 BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
 // Global Variables
 char szClassName[] = "Scanner Window";
@@ -190,6 +189,21 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
+		// Create some buttons
+		HWND hwnd_EditButton = CreateWindow(
+			TEXT("Button"),
+			"Edit Selected Member",
+			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
+			100,		// X from top left
+			400,  // Y from top left
+			200,		// Width
+			23,			// Height
+			hwnd,
+			(HMENU) IDC_BUTTON_EDITMEMBER,
+			((LPCREATESTRUCT) lParam)->hInstance,
+			NULL);
+
+
 		// *****************************************
 		// ***** This starts list box creation *****
 		// *****************************************
@@ -206,9 +220,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
-		// Will this ever work?
-		ShowScrollBar(hwnd_AttendanceListBox, SB_VERT, true);
-
 		// Add extended view styles to the list box
 		ListView_SetExtendedListViewStyle(hwnd_AttendanceListBox, LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 
@@ -217,20 +228,25 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		lvc.mask = LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH  | LVCF_FMT;
         lvc.fmt  = LVCFMT_LEFT;
 
-        lvc.iSubItem = 0;
+        lvc.iSubItem = 0;					// Hidden Column
+        lvc.cx       = 0;					//
+        lvc.pszText  = TEXT("CardNumber");	//
+		ListView_InsertColumn(hwnd_AttendanceListBox, 0, &lvc);
+
+        lvc.iSubItem = 1;
         lvc.cx       = 50;
         lvc.pszText  = TEXT("Name");
-        ListView_InsertColumn(hwnd_AttendanceListBox, 0, &lvc);
- 
-        lvc.iSubItem = 1;
-        lvc.cx       = 100;
-        lvc.pszText  = TEXT("ID Number");
         ListView_InsertColumn(hwnd_AttendanceListBox, 1, &lvc);
  
         lvc.iSubItem = 2;
+        lvc.cx       = 100;
+        lvc.pszText  = TEXT("ID Number");
+        ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
+ 
+        lvc.iSubItem = 3;
         lvc.cx       = 230;
         lvc.pszText  = TEXT("Courses");
-        ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
+        ListView_InsertColumn(hwnd_AttendanceListBox, 3, &lvc);
 
 		// ***************************************
 		// ***** This ends list box creation *****
@@ -251,7 +267,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		SetMenu(hwnd, hMenu);
 		// End menu creation
 
-
 		/***** Subclass declarations
 		 *	Subclassing our edit boxes makes it so we can incercept events
 		 *	(mainly the Enter key) and do something (different) with the event
@@ -260,13 +275,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		 *	nothing and doing nothing.
 		 */
 		SetWindowSubclass(hwnd_CardNumberEditBox, CardNumberEditBox, 0, 0);
-		/* Don't need these just yet
-		 *
-		 SetWindowSubclass(hwnd_NameEditBox, NameEditBox, 0, 0);
-		 SetWindowSubclass(hwnd_IDNumberEditBox, IDNumberEditBox, 0, 0);
-		 SetWindowSubclass(hwnd_CoursesEditBox, CoursesEditBox, 0, 0);
-		 *
-		 **/
 		// End subclass declarations
 
 		// Set focus to Card ID box
@@ -322,6 +330,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			PostMessage(hwnd, WM_CLOSE, 0, 0);
 			break;
 		}
+		case IDC_BUTTON_EDITMEMBER:
+		{
+			DialogBox(GetModuleHandle(NULL),
+						MAKEINTRESOURCE(IDD_DLG_EDITMEMBER),
+						hwnd,
+						EditMemberDlgProc);
+			break;
+		}
 		default:
 			break;
 		}
@@ -371,9 +387,10 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 
 				// Add new entry to the AttendanceListBox
 				ListView_InsertItem(hwnd_AttendanceListBox, &lv);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)name);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)idNumber);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)cardNumber);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)name);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)idNumber);
+				ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
 				ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 			}
 			else
@@ -404,7 +421,9 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 	return DefSubclassProc(hwnd, message, wParam, lParam);
 }
 
-
+/**
+ *  Callback function for the add member dialog box
+ */
 BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     switch(Message)
@@ -449,6 +468,7 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 
 					// Add user to AttendanceListBox in main window
 					ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)cardNumber);
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)name);
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)idNumber);
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
@@ -463,12 +483,90 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
                     EndDialog(hwnd, IDOK);
 				}
                 break;
-                case IDCANCEL: // Currently not used
+                case IDCANCEL:
                     EndDialog(hwnd, IDCANCEL);
                 break;
             }
 		break;
         default:
+            return FALSE;
+    }
+    return TRUE;
+}
+
+/**
+ *  Callback function for the edit member dialog box
+ */
+BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+    switch(Message)
+    {
+        case WM_INITDIALOG:
+		{
+			char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
+			char name[LENGTH_NAME + 1] = "";
+			char idNumber[LENGTH_MSU_ID + 1] = "";
+			char courses[LENGTH_COURSES + 1] = "";
+
+			HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
+
+			int selectedIndex = ListView_GetNextItem(hwnd_AttendanceListBox, -1, LVNI_SELECTED);
+
+			ListView_GetItemText(hwnd_AttendanceListBox, selectedIndex, 0, (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1);
+			ListView_GetItemText(hwnd_AttendanceListBox, selectedIndex, 1, (LPSTR)name, LENGTH_NAME + 1);
+			ListView_GetItemText(hwnd_AttendanceListBox, selectedIndex, 2, (LPSTR)idNumber, LENGTH_MSU_ID + 1); // Not sure why we need +1, but we do
+			ListView_GetItemText(hwnd_AttendanceListBox, selectedIndex, 3, (LPSTR)courses, LENGTH_COURSES + 1);
+
+			// Display in the dialog box
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPCSTR)cardNumber);
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPCSTR)name);
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
+			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPCSTR)courses);
+
+			// Set focus to the name box
+			PostMessage(hwnd, WM_NEXTDLGCTL, FALSE, FALSE);
+		}
+        return TRUE;
+        case WM_COMMAND:
+            switch(LOWORD(wParam))
+            {
+                case IDOK:
+				{
+					/* Here's what do:
+					 *	Read info from the edit controls
+					 *	Call the edit information function from database with new edit information
+					 *	Show the new information in the edit box
+					 */
+
+					char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
+					char name[LENGTH_NAME + 1] = "";
+					char idNumber[LENGTH_MSU_ID + 1] = "";
+					char courses[LENGTH_COURSES + 1] = "";
+
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
+
+					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
+
+					int selectedIndex = ListView_GetNextItem(hwnd_AttendanceListBox, -1, LVNI_SELECTED);
+
+					ListView_SetItemText(hwnd_AttendanceListBox, selectedIndex, 0, (LPSTR)cardNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, selectedIndex, 1, (LPSTR)name);
+					ListView_SetItemText(hwnd_AttendanceListBox, selectedIndex, 2, (LPSTR)idNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, selectedIndex, 3, (LPSTR)courses);
+
+
+                    EndDialog(hwnd, IDOK);
+				}
+                break;
+                case IDCANCEL:
+                    EndDialog(hwnd, IDCANCEL);
+                break;
+            }
+		break;
+		default:
             return FALSE;
     }
     return TRUE;

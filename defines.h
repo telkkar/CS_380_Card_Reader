@@ -27,9 +27,6 @@
 
 /**
  *	NOTES/TODO: 
- *	- Clean up the defines values so they make sense
- *	- Clean up structure
- *	- Rename where appropriate
  *
  */
 
@@ -56,6 +53,7 @@
 #define IDC_EDIT_IDNUMBER		1002
 #define IDC_EDIT_COURSES		1003
 #define IDC_LISTBOX				1004
+#define	IDC_BUTTON_EDITMEMBER	1005
 #define IDC_STATIC				(-1)
 
 // ID for Menus (IDM)
@@ -65,6 +63,7 @@
 
 // ID For Dialog Boxes
 #define IDD_DLG_ADDMEMBER		1200
+#define IDD_DLG_EDITMEMBER		1201
 
 /*******************************************
  * End defines for flags/messages
