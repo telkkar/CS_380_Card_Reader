@@ -107,9 +107,10 @@ bool Database::isMember(char* cardNumber)
 	bool found = false;
 	int found_value = 0;
 
-	char sqlQuery[50 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Members WHERE cardNumber = ";
+	char sqlQuery[50 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Members WHERE cardNumber='";
 	//+ 1 for the null terminator on string length
 	strcat(sqlQuery, cardNumber);
+	strcat(sqlQuery, "'");
 
 	// Prepare dbStatement
 	sqlite3_prepare(db, sqlQuery, -1, &dbStatement, NULL);
@@ -138,9 +139,10 @@ bool Database::isAttending(char* cardNumber)
 	bool found = false;
 	int found_value = 0;
 
-	char sqlQuery[53 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Attendance WHERE cardNumber = ";
+	char sqlQuery[53 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Attendance WHERE cardNumber='";
 	//+ 1 for the null terminator on string length
 	strcat(sqlQuery, cardNumber);
+	strcat(sqlQuery, "'");
 
 	// Prepare dbStatement
 	sqlite3_prepare(db, sqlQuery, -1, &dbStatement, NULL);
