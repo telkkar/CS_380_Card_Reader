@@ -209,8 +209,45 @@ void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char*
 void Database::editInformation(char* cardNumber, char* name, char* idNumber, char* courses)
 {
 
+	editMembers(cardNumber, name, idNumber, courses);
+	editAttendance(cardNumber, name, idNumber, courses);
+	
+}
+
+// 2 private /////////////////////
+
+//editAttendance
+
+void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char* courses)
+{
+	char sqlStatement[28 +
+	                  LENGTH_NAME + 13 +
+	                  LENGTH_MSU_ID + 12 +
+	                  LENGTH_COURSES + 20 +
+					  LENGTH_CARD_NUMBER + 1] = "";
+	strcat(sqlStatement, "UPDATE Attendance SET name='");
+	strcat(sqlStatement, name);
+	strcat(sqlStatement, "', idNumber='");
+	strcat(sqlStatement, idNumber);
+	strcat(sqlStatement, "', courses='");
+	strcat(sqlStatement, courses);
+	strcat(sqlStatement, "' WHERE cardNumber='");
+	strcat(sqlStatement, cardNumber);
+	strcat(sqlStatement, "'");
 
 
+
+	sqlite3_prepare(db, sqlStatement, -1, &dbStatement, NULL);
+	sqlite3_step(dbStatement);
+
+	// Close dbStatement
+	sqlite3_finalize(dbStatement);
+}
+
+
+//editMembers
+void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* courses)
+{
 	char sqlStatement[25 +
 	                  LENGTH_NAME + 13 +
 	                  LENGTH_MSU_ID + 12 +
@@ -233,5 +270,4 @@ void Database::editInformation(char* cardNumber, char* name, char* idNumber, cha
 
 	// Close dbStatement
 	sqlite3_finalize(dbStatement);
-	
 }
