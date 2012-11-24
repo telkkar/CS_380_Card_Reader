@@ -469,9 +469,9 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					// Add user to AttendanceListBox in main window
 					ListView_InsertItem(hwnd_AttendanceListBox, &lv);
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)cardNumber);
-					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)name);
-					ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)idNumber);
-					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)courses);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)name);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)idNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
 					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
 					// Change the information of the edit boxes in main window
