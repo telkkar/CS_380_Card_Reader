@@ -42,6 +42,7 @@
 
 #include <Windows.h>
 #include <CommCtrl.h>
+#include <cstring>
 
 // Callback function prototypes
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -543,7 +544,7 @@ BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 					char idNumber[LENGTH_MSU_ID + 1] = "";
 					char courses[LENGTH_COURSES + 1] = "";
 
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1); // + 1, and I'm not sure why -W
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
