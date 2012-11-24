@@ -194,8 +194,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			TEXT("Button"),
 			"Edit Selected Member",
 			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
-			100,		// X from top left
-			400,  // Y from top left
+			350,		// X from top left
+			100,  // Y from top left
 			200,		// Width
 			23,			// Height
 			hwnd,
@@ -211,9 +211,9 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			WC_LISTVIEW,
 			NULL,
 			WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT,
-			380,		// X from top left
-			0,			// Y from top left
-			400,		// Width
+			0,		// X from top left
+			150,			// Y from top left
+			800,		// Width
 			450,		// Height
 			hwnd,
 			(HMENU) IDC_LISTBOX,
@@ -234,17 +234,17 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		ListView_InsertColumn(hwnd_AttendanceListBox, 0, &lvc);
 
         lvc.iSubItem = 1;
-        lvc.cx       = 50;
+        lvc.cx       = 150;
         lvc.pszText  = TEXT("Name");
         ListView_InsertColumn(hwnd_AttendanceListBox, 1, &lvc);
  
         lvc.iSubItem = 2;
-        lvc.cx       = 100;
+        lvc.cx       = 75;
         lvc.pszText  = TEXT("ID Number");
         ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
  
         lvc.iSubItem = 3;
-        lvc.cx       = 230;
+        lvc.cx       = 575;
         lvc.pszText  = TEXT("Courses");
         ListView_InsertColumn(hwnd_AttendanceListBox, 3, &lvc);
 
