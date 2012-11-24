@@ -214,7 +214,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			0,		// X from top left
 			150,			// Y from top left
 			785,		// Width
-			450,		// Height
+			410,		// Height
 			hwnd,
 			(HMENU) IDC_LISTBOX,
 			((LPCREATESTRUCT) lParam)->hInstance,
