@@ -548,6 +548,8 @@ BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
 					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
 
+					db.editInformation(cardNumber, name, idNumber, courses);// NEWly added
+
 					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
 
 					int selectedIndex = ListView_GetNextItem(hwnd_AttendanceListBox, -1, LVNI_SELECTED);

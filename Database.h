@@ -50,6 +50,7 @@ public:
 	bool isMember(char* cardNumber);
 	bool isAttending(char* cardNumber);
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
+	void editInformation(char* cardNumber, char* name, char* idNumber, char* courses);
 
 private:
 	sqlite3* db;
