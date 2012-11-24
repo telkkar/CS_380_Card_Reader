@@ -213,7 +213,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT,
 			0,		// X from top left
 			150,			// Y from top left
-			800,		// Width
+			785,		// Width
 			450,		// Height
 			hwnd,
 			(HMENU) IDC_LISTBOX,
