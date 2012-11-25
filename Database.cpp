@@ -271,3 +271,21 @@ void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* c
 	// Close dbStatement
 	sqlite3_finalize(dbStatement);
 }
+
+	/* NEW
+
+	This method retrieves the total # of
+	attendees from the Attendance table.
+
+	*/
+
+void Database::getAttendance()
+{
+	char sqlStatement[31] = "";
+	strcat(sqlStatement, "SELECT COUNT(*) FROM Attendance");
+
+	sqlite3_prepare(db, sqlStatement, -1, &dbStatement, NULL);
+	sqlite3_step(dbStatement);
+	sqlite3_finalize(dbStatement);
+
+}

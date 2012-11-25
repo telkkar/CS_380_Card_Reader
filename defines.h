@@ -43,6 +43,7 @@
 #define X_COURSES				10
 #define Y_COURSES				100
 
+
 /*******************************************
  * Defines for flags/messages
  * Each section increases X by 1, where 1X00
