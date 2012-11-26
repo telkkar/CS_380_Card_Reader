@@ -279,13 +279,18 @@ void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* c
 
 	*/
 
-void Database::getAttendance()
+int Database::getAttendanceCount()
 {
 	char sqlStatement[31] = "";
 	strcat(sqlStatement, "SELECT COUNT(*) FROM Attendance");
 
 	sqlite3_prepare(db, sqlStatement, -1, &dbStatement, NULL);
 	sqlite3_step(dbStatement);
-	sqlite3_finalize(dbStatement);
+	
+	/* 
+		Put return statements here *in progress*
+		Returns int data type
+	*/
 
+	sqlite3_finalize(dbStatement)
 }
