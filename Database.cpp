@@ -281,3 +281,14 @@ int Database::getAttendanceCount()
 
 	return count;
 }
+
+void Database::clearAttendance()
+{
+	char sqlStatement[] = "DELETE FROM Attendance";
+
+	sqlite3_prepare(db, sqlStatement, -1, &dbStatment, NULL);
+
+	sqlite3_step(dbStatement);
+
+	sqlite3_finalize(dbStatement);
+}

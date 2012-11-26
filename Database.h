@@ -52,6 +52,7 @@ public:
 	int getAttendanceCount();
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 	void editInformation(char* cardNumber, char* name, char* idNumber, char* courses);
+	void clearAttendance();
 
 private:
 	sqlite3* db;
