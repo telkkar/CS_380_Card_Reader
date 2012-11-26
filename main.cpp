@@ -397,7 +397,7 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 			char idNumber[LENGTH_MSU_ID + 1] = "";
 			char courses[LENGTH_COURSES + 1] = "";
 
-			GetWindowText(hwnd, (LPSTR)cardNumber, LENGTH_CARD_NUMBER); // This puts a null terminating character on the end of string
+			GetWindowText(hwnd, (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1); // This puts a null terminating character on the end of string
 																		// This is the reason for the + 1's at end of cardNumber cstring
 
 			if(db.isMember(cardNumber))
@@ -474,7 +474,7 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 		{
 			// Get the cardNumber
 			char cardNumber[LENGTH_CARD_NUMBER + 1] = "";
-			GetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
+			GetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1);
 
 			// Place it in the first edit control in the dialog box
 			SetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPCSTR)cardNumber);
@@ -495,10 +495,10 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					char courses[LENGTH_COURSES + 1] = "";
 
 					// Get the info from the dialog edit controls in the dialog box
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES + 1);
 					
 					// Add them to the members table, and the attendance table
 					db.addMember(cardNumber, name, idNumber, courses);
@@ -585,10 +585,10 @@ BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 					char idNumber[LENGTH_MSU_ID + 1] = "";
 					char courses[LENGTH_COURSES + 1] = "";
 
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1); // + 1, and I'm not sure why -W
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID);
-					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_CARDNUMBER), (LPSTR)cardNumber, LENGTH_CARD_NUMBER + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), (LPSTR)name, LENGTH_NAME + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_IDNUMBER), (LPSTR)idNumber, LENGTH_MSU_ID + 1);
+					GetWindowText(GetDlgItem(hwnd, IDC_EDIT_COURSES), (LPSTR)courses, LENGTH_COURSES + 1);
 
 					db.editInformation(cardNumber, name, idNumber, courses);
 
