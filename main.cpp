@@ -367,6 +367,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		break;
 	case WM_DESTROY:
 		PostQuitMessage (0);       /* send a WM_QUIT to the message queue */
+		
+		// Line for cleaning up attendance on program exit
+		db.clearAttendance();
+
 		break;
 	default:                      /* for messages that we don't deal with */
 		return DefWindowProc (hwnd, message, wParam, lParam);
@@ -398,31 +402,38 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 
 			if(db.isMember(cardNumber))
 			{
-				db.getMemberInfo(cardNumber, name, idNumber, courses);
-				db.addAttendance(cardNumber, name, idNumber, courses);
+				if(!db.isAttending(cardNumber))
+				{
+					db.getMemberInfo(cardNumber, name, idNumber, courses);
+					db.addAttendance(cardNumber, name, idNumber, courses);
 
-				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_NAME), (LPCSTR)name);
-				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
-				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_COURSES), (LPCSTR)courses);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_NAME), (LPCSTR)name);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_COURSES), (LPCSTR)courses);
 
-				// Handle to List box found
-				HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
+					// Handle to List box found
+					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
 
-				LVITEM   lv  = { 0 };  // No idea what this does, but works
+					LVITEM   lv  = { 0 };  // No idea what this does, but works
 
-				// Add new entry to the AttendanceListBox
-				ListView_InsertItem(hwnd_AttendanceListBox, &lv);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)cardNumber);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)name);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)idNumber);
-				ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
-				ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
+					// Add new entry to the AttendanceListBox
+					ListView_InsertItem(hwnd_AttendanceListBox, &lv);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 0, (LPSTR)cardNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 1, (LPSTR)name);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)idNumber);
+					ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
+					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
-				/* Here is where we need to add the attendance count update statement */
-				/* Still bugged -- needs to be fixed */
-				int count = db.getAttendanceCount();
+					/* Here is where we need to add the attendance count update statement */
+					/* Still bugged -- needs to be fixed */
+					int count = db.getAttendanceCount();
 
-				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)count));
+					//SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)(char *)count);
+				}
+				else /* If the person is attending */
+				{
+					// Select them in the list box? That'd be neat
+				}
 			}
 			else
 			{	// ADD missing information into the database (members table)

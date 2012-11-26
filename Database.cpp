@@ -286,7 +286,7 @@ void Database::clearAttendance()
 {
 	char sqlStatement[] = "DELETE FROM Attendance";
 
-	sqlite3_prepare(db, sqlStatement, -1, &dbStatment, NULL);
+	sqlite3_prepare(db, sqlStatement, -1, &dbStatement, NULL);
 
 	sqlite3_step(dbStatement);
 
