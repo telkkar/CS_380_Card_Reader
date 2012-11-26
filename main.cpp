@@ -190,6 +190,19 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			((LPCREATESTRUCT) lParam)->hInstance,
 			NULL);
 
+		HWND hwnd_AttendanceCountBox = CreateWindow(
+			TEXT("Edit"),
+			"0",
+			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY,
+			X_ATTENDANCE_COUNT,		// X from top left
+			Y_ATTENDANCE_COUNT,  // Y from top left
+			20,		// Width
+			20,			// Height
+			hwnd,
+			(HMENU) IDC_ATTENDANCE_COUNTER,
+			((LPCREATESTRUCT) lParam)->hInstance,
+			NULL);
+
 		// Create some buttons
 		HWND hwnd_EditButton = CreateWindow(
 			TEXT("Button"),
@@ -289,6 +302,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		char name[] = "Name:";
 		char idNumber[] = "ID Number:";
 		char courses[] = "Courses:";
+		char attendanceCount[] = "Attendance Count:";
 
 		HDC hdc = BeginPaint(hwnd, &ps);
 
@@ -319,6 +333,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		        Y_COURSES,          /* Y */
 		        (LPCSTR)courses,
 		        strlen(courses) /* Number of chars */);
+
+		// Attendance Count text
+		TextOut(hdc,
+		        X_ATTENDANCE_COUNT - 120,        /* X */
+		        Y_ATTENDANCE_COUNT + 2,          /* Y */
+		        (LPCSTR)attendanceCount,
+		        strlen(attendanceCount) /* Number of chars */);
+
 
 		EndPaint(hwnd, &ps);
 	}
@@ -393,6 +415,8 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 				ListView_SetItemText(hwnd_AttendanceListBox, 0, 2, (LPSTR)idNumber);
 				ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
 				ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
+
+				/* Here is where we need to add the attendance count update statement */
 			}
 			else
 			{	// ADD missing information into the database (members table)

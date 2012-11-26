@@ -42,6 +42,8 @@
 #define Y_IDNUMBER				75
 #define X_COURSES				10
 #define Y_COURSES				100
+#define X_ATTENDANCE_COUNT		755
+#define Y_ATTENDANCE_COUNT		120
 
 /*******************************************
  * Defines for flags/messages
@@ -54,6 +56,7 @@
 #define IDC_EDIT_COURSES		1003
 #define IDC_LISTBOX				1004
 #define	IDC_BUTTON_EDITMEMBER	1005
+#define	IDC_ATTENDANCE_COUNTER	1006
 #define IDC_STATIC				(-1)
 
 // ID for Menus (IDM)
