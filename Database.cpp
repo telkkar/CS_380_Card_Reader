@@ -107,7 +107,7 @@ bool Database::isMember(char* cardNumber)
 	bool found = false;
 	int found_value = 0;
 
-	char sqlQuery[50 + LENGTH_CARD_NUMBER + 2] = "SELECT cardNumber FROM Members WHERE cardNumber='";
+	char sqlQuery[50 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Members WHERE cardNumber='";
 	//+ 1 for the null terminator on string length
 	strcat(sqlQuery, cardNumber);
 	strcat(sqlQuery, "'");
