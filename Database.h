@@ -49,7 +49,7 @@ public:
 	void addMember(char* cardNumber, char* name, char* idNumber, char* courses);
 	bool isMember(char* cardNumber);
 	bool isAttending(char* cardNumber);
-	int getAttendanceCount(); // NEW
+	int getAttendanceCount();
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 	void editInformation(char* cardNumber, char* name, char* idNumber, char* courses);
 

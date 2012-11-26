@@ -419,6 +419,10 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 				ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
 				/* Here is where we need to add the attendance count update statement */
+				/* Still bugged -- needs to be fixed */
+				int count = db.getAttendanceCount();
+
+				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)count));
 			}
 			else
 			{	// ADD missing information into the database (members table)
