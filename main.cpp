@@ -399,6 +399,8 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 			if(db.isMember(cardNumber))
 			{
 				db.getMemberInfo(cardNumber, name, idNumber, courses);
+				db.addAttendance(cardNumber, name, idNumber, courses);
+
 				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_NAME), (LPCSTR)name);
 				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_IDNUMBER), (LPCSTR)idNumber);
 				SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_COURSES), (LPCSTR)courses);
