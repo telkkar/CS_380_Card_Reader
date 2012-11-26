@@ -168,27 +168,16 @@ bool Database::isAttending(char* cardNumber)
 
 void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses)
 {
-	bool found = false;
+	char sqlQuery[74 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber, name, idNumber, courses FROM Members WHERE cardNumber='";
+	//+ 1 for the '
+	strcat(sqlQuery, cardNumber);
+	strcat(sqlQuery, "'");
 
-	// Prepare query
-	sqlite3_prepare(db, "SELECT cardNumber, name, idNumber, courses FROM Members", -1, &dbStatement, NULL);
+	// Prepare dbStatement
+	sqlite3_prepare(db, sqlQuery, -1, &dbStatement, NULL);
 
-	// Find the person (we've already checked that they are a Member from the isMember function!)
-	
-	/*** NOTE ***
-	 * Use the new code from the isMember functions to improve searching in this function
-	 */
-
-
-	while(found == false)
-	{
-		sqlite3_step(dbStatement);
-
-		if(strcmp((char*)sqlite3_column_text(dbStatement, 0), cardNumber) == 0)
-		{
-			found = true;
-		}
-	}
+	// Execute the statement
+	sqlite3_step(dbStatement);
 
 	// Insert values we want into the strings we passed in
 	strcat(name, (char*)sqlite3_column_text(dbStatement, 1));
@@ -197,12 +186,7 @@ void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char*
 
 	// Close statement
 	sqlite3_finalize(dbStatement);
-
 }
-
-
-
-
 
 //********************* NEW ***************
 //*****************************************
