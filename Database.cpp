@@ -54,10 +54,10 @@ void Database::addMember(char* cardNumber, char* name, char* idNumber, char* cou
 {
 	// Prepare sqlStatement
 	char sqlStatement[28 +
-	                  LENGTH_CARD_NUMBER + 4 +
-	                  LENGTH_NAME + 4 +
-	                  LENGTH_MSU_ID + 4 +
-	                  LENGTH_COURSES + 2] = "";
+	                  (LENGTH_CARD_NUMBER + 1) + 4 +
+	                  (LENGTH_NAME + 1) + 4 +
+	                  (LENGTH_MSU_ID + 1) + 4 +
+	                  (LENGTH_COURSES + 1) + 2] = "";
 	strcat(sqlStatement, "INSERT INTO Members VALUES('");
 	strcat(sqlStatement, cardNumber);
 	strcat(sqlStatement, "', '");
@@ -80,10 +80,10 @@ void Database::addAttendance(char* cardNumber, char* name, char* idNumber, char*
 {
 	// Prepare sqlStatement
 	char sqlStatement[31 +
-	                  LENGTH_CARD_NUMBER + 4 +
-	                  LENGTH_NAME + 4 +
-	                  LENGTH_MSU_ID + 4 +
-	                  LENGTH_COURSES + 2] = "";
+	                  (LENGTH_CARD_NUMBER + 1) + 4 +
+	                  (LENGTH_NAME + 1) + 4 +
+	                  (LENGTH_MSU_ID + 1) + 4 +
+	                  (LENGTH_COURSES + 1) + 2] = "";
 	strcat(sqlStatement, "INSERT INTO Attendance VALUES('");
 	strcat(sqlStatement, cardNumber);
 	strcat(sqlStatement, "', '");
@@ -193,10 +193,10 @@ void Database::editInformation(char* cardNumber, char* name, char* idNumber, cha
 void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char* courses)
 {
 	char sqlStatement[28 +
-	                  LENGTH_NAME + 13 +
-	                  LENGTH_MSU_ID + 12 +
-	                  LENGTH_COURSES + 20 +
-					  LENGTH_CARD_NUMBER + 1] = "";
+	                  (LENGTH_NAME + 1) + 13 +
+	                  (LENGTH_MSU_ID + 1) + 12 +
+	                  (LENGTH_COURSES + 1) + 20 +
+					  (LENGTH_CARD_NUMBER + 1) + 1] = "";
 	strcat(sqlStatement, "UPDATE Attendance SET name='");
 	strcat(sqlStatement, name);
 	strcat(sqlStatement, "', idNumber='");
@@ -219,10 +219,10 @@ void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char
 void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* courses)
 {
 	char sqlStatement[25 +
-	                  LENGTH_NAME + 13 +
-	                  LENGTH_MSU_ID + 12 +
-	                  LENGTH_COURSES + 20 +
-					  LENGTH_CARD_NUMBER + 1] = "";
+	                  (LENGTH_NAME + 1) + 13 +
+	                  (LENGTH_MSU_ID + 1) + 12 +
+	                  (LENGTH_COURSES + 1) + 20 +
+					  (LENGTH_CARD_NUMBER + 1) + 1] = "";
 	strcat(sqlStatement, "UPDATE Members SET name='");
 	strcat(sqlStatement, name);
 	strcat(sqlStatement, "', idNumber='");
