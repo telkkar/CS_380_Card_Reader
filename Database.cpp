@@ -42,7 +42,7 @@ Database::Database()
 {
 	// Need to add error checking here
 	// What if this doesn't open the DB?
-	sqlite3_open("database.db", &db);   // Open the database
+	sqlite3_open("database.db", &db);
 }
 
 Database::~Database()
@@ -107,8 +107,7 @@ bool Database::isMember(char* cardNumber)
 	bool found = false;
 	int found_value = 0;
 
-	char sqlQuery[50 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Members WHERE cardNumber='";
-	//+ 1 for the null terminator on string length
+	char sqlQuery[49 + (LENGTH_CARD_NUMBER + 1) + 1] = "SELECT cardNumber FROM Members WHERE cardNumber='";
 	strcat(sqlQuery, cardNumber);
 	strcat(sqlQuery, "'");
 
@@ -117,7 +116,6 @@ bool Database::isMember(char* cardNumber)
 
 	found_value = sqlite3_step(dbStatement);
 	// sqlite3_step returns SQLITE_ROW if an entry was found, SQLITE_DONE if not found
-	// SQLITE_ROW == 100, SQLITE_DONE = 101 (from defines on sqlite website.)
 
 	if(found_value == SQLITE_ROW)
 	{
@@ -139,8 +137,7 @@ bool Database::isAttending(char* cardNumber)
 	bool found = false;
 	int found_value = 0;
 
-	char sqlQuery[53 + LENGTH_CARD_NUMBER + 1] = "SELECT cardNumber FROM Attendance WHERE cardNumber='";
-	//+ 1 for the null terminator on string length
+	char sqlQuery[52 + (LENGTH_CARD_NUMBER + 1) + 1] = "SELECT cardNumber FROM Attendance WHERE cardNumber='";
 	strcat(sqlQuery, cardNumber);
 	strcat(sqlQuery, "'");
 
@@ -168,8 +165,7 @@ bool Database::isAttending(char* cardNumber)
 
 void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses)
 {
-	char sqlQuery[74 + LENGTH_CARD_NUMBER + 2] = "SELECT cardNumber, name, idNumber, courses FROM Members WHERE cardNumber='";
-	//+ 2 for the ' and to account for the NULL terminator
+	char sqlQuery[74 + (LENGTH_CARD_NUMBER + 1) + 1] = "SELECT cardNumber, name, idNumber, courses FROM Members WHERE cardNumber='";
 	strcat(sqlQuery, cardNumber);
 	strcat(sqlQuery, "'");
 
@@ -188,19 +184,11 @@ void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char*
 	sqlite3_finalize(dbStatement);
 }
 
-//********************* NEW ***************
-//*****************************************
 void Database::editInformation(char* cardNumber, char* name, char* idNumber, char* courses)
 {
-
 	editMembers(cardNumber, name, idNumber, courses);
 	editAttendance(cardNumber, name, idNumber, courses);
-	
 }
-
-// 2 private /////////////////////
-
-//editAttendance
 
 void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char* courses)
 {
@@ -228,8 +216,6 @@ void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char
 	sqlite3_finalize(dbStatement);
 }
 
-
-//editMembers
 void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* courses)
 {
 	char sqlStatement[25 +
@@ -255,13 +241,6 @@ void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* c
 	// Close dbStatement
 	sqlite3_finalize(dbStatement);
 }
-
-	/* NEW
-
-	This method retrieves the total # of
-	attendees from the Attendance table.
-
-	*/
 
 int Database::getAttendanceCount()
 {

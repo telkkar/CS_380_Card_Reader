@@ -72,7 +72,6 @@
  * End defines for flags/messages
  *******************************************/
 
-
 // Length of strings accepted by edit boxes
 #define LENGTH_CARD_NUMBER		16
 #define LENGTH_NAME				30

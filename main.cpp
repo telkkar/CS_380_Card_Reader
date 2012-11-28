@@ -55,9 +55,9 @@ BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM l
 char szClassName[] = "Scanner Window";
 Database db;
 
-/**
- *  MAIN FUNCTION BEGINS HERE
- *  This is where the magic starts!
+/*
+ * Function: WinMain
+ * Description: This is the function that replaces main() in a terminal application.
  */
 int WINAPI WinMain (HINSTANCE hThisInstance,
                     HINSTANCE hPrevInstance,
@@ -123,8 +123,12 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 }
 
 
-/*  This function is called by the Windows function DispatchMessage()  */
-
+/*
+ * Function: WindowProcedure
+ * Description: This function is called by the Windows function DispatchMessage(). It
+ *   processes the messages sent to it by the OS.
+ *   Here is where we create most of the controls in the main window.
+ */
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
@@ -380,9 +384,9 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 }
 
 
-/**
- *  Callback function for CardNumberEditBox
- *  Our CardNumberEditBox gets subclassed into this function
+/*
+ *  Function: CardNumberEditBox
+ *  Description: Our CardNumberEditBox control gets subclassed into this function.
  */
 LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
@@ -465,8 +469,10 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 	return DefSubclassProc(hwnd, message, wParam, lParam);
 }
 
-/**
- *  Callback function for the add member dialog box
+/*
+ *  Function: AddMemberDlgProc
+ *  Description: This is the function that handles the messages for the dialog box
+ *    that prompts the user for information before adding that user to the database.
  */
 BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
@@ -538,8 +544,10 @@ BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
     return TRUE;
 }
 
-/**
- *  Callback function for the edit member dialog box
+/*
+ *  Function: EditMemberDlgProc
+ *  Description: This is the function that handles the messages for the dialog box
+ *    that prompts the user to edit a user's information.
  */
 BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
