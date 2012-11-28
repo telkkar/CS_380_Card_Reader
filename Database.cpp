@@ -272,11 +272,8 @@ int Database::getAttendanceCount()
 	sqlite3_prepare(db, sqlStatement, -1, &dbStatement, NULL);
 	sqlite3_step(dbStatement);
 	
-	/* 
-		Put return statements here *in progress*
-		Returns int data type
-	*/
 	count = sqlite3_column_int(dbStatement, 0);
+
 	sqlite3_finalize(dbStatement);
 
 	return count;

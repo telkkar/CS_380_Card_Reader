@@ -424,11 +424,13 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
 					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
-					/* Here is where we need to add the attendance count update statement */
-					/* Still bugged -- needs to be fixed */
+					/* Needs to check for ints over 99 (any more than two digits) */
 					int count = db.getAttendanceCount();
+					char countText[3];
+					
+					_itoa(db.getAttendanceCount(), countText, 10); 
 
-					//SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)(char *)count);
+					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)countText);
 				}
 				else /* If the person is attending */
 				{
