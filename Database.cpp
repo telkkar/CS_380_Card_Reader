@@ -269,16 +269,16 @@ void Database::clearAttendance()
 	sqlite3_finalize(dbStatement);
 }
 
-char** Database::getAttendanceTable()
+char*** Database::getAttendanceTable()
 {
 	int attendanceCount = getAttendanceCount();
 
-	char **data;
-	data = new char*[attendanceCount];
+	char ***data;
+	data = new char**[attendanceCount];
 
 	for(int i = 0; i < attendanceCount; i++)
 	{
-		data[i] = new char[3]; 
+		data[i] = new char*[3]; 
 	}
 
 	char sqlStatement[] = "SELECT name, idNumber, courses FROM Attendance";
@@ -288,10 +288,19 @@ char** Database::getAttendanceTable()
 	for(int i = 0; i < attendanceCount; i++)
 	{
 		sqlite3_step(dbStatement);
+		char *returnText = NULL;
+		
+		returnText = new char[LENGTH_NAME];
+		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 0));
+		data[i][0] = returnText;
 
-		data[i][0] = (char)sqlite3_column_text(dbStatement, 0);
-		data[i][1] = (char)sqlite3_column_text(dbStatement, 1);
-		data[i][2] = (char)sqlite3_column_text(dbStatement, 2);
+		returnText = new char[LENGTH_MSU_ID];
+		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 1));
+		data[i][1] = returnText;
+
+		returnText = new char[LENGTH_COURSES];
+		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 2));
+		data[i][2] = returnText;
 	}
 
 	sqlite3_finalize(dbStatement);

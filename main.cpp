@@ -360,12 +360,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		}
 		case IDM_MENU_PRINT_HUMANREADABLE:
 		{
-			// Print out to human readable
+			PrintFile printFile;
+			printFile.printToHumanFormatted(db.getAttendanceTable(), db.getAttendanceCount());
 			break;
 		}
 		case IDM_MENU_PRINT_CSV:
 		{
-			// Print out to CSV
+			PrintFile printFile;
+			printFile.printToCSV(db.getAttendanceTable(), db.getAttendanceCount());
 			break;
 		}
 		case IDC_BUTTON_EDITMEMBER:

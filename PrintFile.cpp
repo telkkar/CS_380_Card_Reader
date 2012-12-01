@@ -8,7 +8,7 @@
 
 using namespace std;
 	
-void printFile::printToHumanFormatted(char **data, int numberOfRows)
+void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 {
 //	data[numberOfRows][3];
 	ofstream students("studentsHRF.txt", ios::out); //file for students to be recorded to.
@@ -20,9 +20,21 @@ void printFile::printToHumanFormatted(char **data, int numberOfRows)
 		students << left << setw(10) << data[x][0] << "|" << setw(10) << data[x][1] << "|" << setw(20) << data[x][2] << "\n";
 		x++;
 	}
+
+	for(int i = 0; i < numberOfRows; i++)
+	{
+		for(int j = 0; j < 3; j++)
+		{
+			delete data[i][j];
+		}
+
+		delete data[i];
+	}
+
+	delete data;
 }
 
-void printFile::printToCSV(char **data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
+void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
 {
 	ofstream students("studentsCSV.txt", ios::out); //CSV file for students to be recorded to.
 	int x = 0;
@@ -31,6 +43,18 @@ void printFile::printToCSV(char **data, int numberOfRows)//I may need to format 
 		students << left << data[x][0] << "," << data[x][1] << "," << data[x][2] << "\n";
 		x++;	
 	}
+
+	for(int i = 0; i < numberOfRows; i++)
+	{
+		for(int j = 0; j < 3; j++)
+		{
+			delete data[i][j];
+		}
+
+		delete data[i];
+	}
+
+	delete data;
 }
 
 

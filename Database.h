@@ -53,7 +53,7 @@ public:
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 	void editInformation(char* cardNumber, char* name, char* idNumber, char* courses);
 	void clearAttendance();
-	char** getAttendanceTable();
+	char*** getAttendanceTable();
 
 private:
 	sqlite3* db;

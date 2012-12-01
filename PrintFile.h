@@ -1,9 +1,9 @@
 #include <string>
 
-class printFile
+class PrintFile
 {
 public:
-	void printToHumanFormatted(char**, int);
-	void printToCSV(char**, int);
+	void printToHumanFormatted(char***, int);
+	void printToCSV(char***, int);
 
 };
