@@ -278,9 +278,9 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_FILE_EXIT, (LPCSTR)"Exit");
 
 		hSubMenu = CreatePopupMenu();
-		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Mode");
-		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_MODE_ATTENDANCE, (LPCSTR)"Attendance");
-		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_MODE_OPERATOR, (LPCSTR)"Operator");
+		AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, (LPCSTR)"Print");
+		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_PRINT_HUMANREADABLE, (LPCSTR)"Human Readable");
+		AppendMenu(hSubMenu, MF_STRING, IDM_MENU_PRINT_CSV, (LPCSTR)"CSV");
 
 		SetMenu(hwnd, hMenu);
 		// End menu creation
@@ -355,6 +355,16 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		case IDM_MENU_FILE_EXIT:
 		{
 			PostMessage(hwnd, WM_CLOSE, 0, 0);
+			break;
+		}
+		case IDM_MENU_PRINT_HUMANREADABLE:
+		{
+			// Print out to human readable
+			break;
+		}
+		case IDM_MENU_PRINT_CSV:
+		{
+			// Print out to CSV
 			break;
 		}
 		case IDC_BUTTON_EDITMEMBER:
