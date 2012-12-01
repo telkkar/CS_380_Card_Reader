@@ -29,6 +29,9 @@
 #include <fstream>
 #include <string>
 
+#include "PrintFile.h"
+#include "defines.h"
+
 using namespace std;
 	
 void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)

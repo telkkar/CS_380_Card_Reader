@@ -33,16 +33,14 @@
  *		-If you want to add enter functionality in dialog box, you'll have to subclass boxes in dialog box
  */
 
+#include <Windows.h>
+#include <CommCtrl.h>
+#include <cstring>
 
 #include "defines.h"
 #include "Database.h"
 #include "PrintFile.h"
 
-#include <Windows.h>
-#include <CommCtrl.h>
-#include <cstring>
-
-// Callback function prototypes
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK CardNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
 BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
