@@ -44,11 +44,11 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 
 void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
 {
-	ofstream students("studentsCSV.txt", ios::out); //CSV file for students to be recorded to.
+	ofstream students("studentsCSV.csv", ios::out); //CSV file for students to be recorded to.
 	int x = 0;
 	while (x != numberOfRows)//while not past the last row in the array.
 	{
-		students << left << data[x][0] << "," << data[x][1] << "," << data[x][2] << "\n";
+		students << left << "\"" << data[x][0] << "\",\"" << data[x][1] << "\",\"" << data[x][2] << "\"\n";
 		x++;	
 	}
 
