@@ -42,7 +42,7 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 	int x = 0;
 	students << left << setw(LENGTH_NAME) << "Name" << "|" << setw(LENGTH_MSU_ID + 3) << "ID Number" << "|" << setw(LENGTH_COURSES) << "Classes" << "\n";
 
-	for(int i = 0; i < (LENGTH_NAME + LENGTH_MSU_ID + LENGTH_COURSES); i++)
+	for(int i = 0; i < (LENGTH_NAME + (LENGTH_MSU_ID + 3) + LENGTH_COURSES + 2); i++)
 	{
 		students << "=";
 	}
