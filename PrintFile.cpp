@@ -1,10 +1,11 @@
 
+#include "PrintFile.h"
+#include "defines.h"
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <string>
-
-#include "PrintFile.h"
 
 using namespace std;
 	
@@ -14,10 +15,17 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 	ofstream students("studentsHRF.txt", ios::out); //file for students to be recorded to.
 	
 	int x = 0;
-	students << setw(10) << "Name" << "|" << setw(10) << "ID Number" << "|" << setw(20) << "Classes" << "\n";
+	students << left << setw(LENGTH_NAME) << "Name" << "|" << setw(LENGTH_MSU_ID + 3) << "ID Number" << "|" << setw(LENGTH_COURSES) << "Classes" << "\n";
+
+	for(int i = 0; i < (LENGTH_NAME + LENGTH_MSU_ID + LENGTH_COURSES); i++)
+	{
+		students << "=";
+	}
+	students << endl;
+
 	while (x != numberOfRows)//while not past the last row in the array.
 	{
-		students << left << setw(10) << data[x][0] << "|" << setw(10) << data[x][1] << "|" << setw(20) << data[x][2] << "\n";
+		students << left << setw(LENGTH_NAME) << data[x][0] << "|" << setw(LENGTH_MSU_ID+ 3) << data[x][1] << "|" << setw(LENGTH_COURSES) << data[x][2] << "\n";
 		x++;
 	}
 
