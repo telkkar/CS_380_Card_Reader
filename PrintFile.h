@@ -2,10 +2,8 @@
 
 class printFile
 {
-	public:
-		void printToHumanFormatted(std::string**, int);
-		void printToCSV(std::string**, int);
-	private:
-		int none;
+public:
+	void printToHumanFormatted(char**, int);
+	void printToCSV(char**, int);
 
 };

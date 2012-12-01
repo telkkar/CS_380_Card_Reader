@@ -1,14 +1,14 @@
-#include "print file.h"
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <string>
 
+#include "PrintFile.h"
+
 using namespace std;
-
-
 	
-void printFile::printToHumanFormatted(string **data, int numberOfRows)
+void printFile::printToHumanFormatted(char **data, int numberOfRows)
 {
 //	data[numberOfRows][3];
 	ofstream students("studentsHRF.txt", ios::out); //file for students to be recorded to.
@@ -22,7 +22,7 @@ void printFile::printToHumanFormatted(string **data, int numberOfRows)
 	}
 }
 
-void printFile::printToCSV(string **data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
+void printFile::printToCSV(char **data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
 {
 	ofstream students("studentsCSV.txt", ios::out); //CSV file for students to be recorded to.
 	int x = 0;

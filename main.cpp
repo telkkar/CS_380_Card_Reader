@@ -39,6 +39,7 @@
 // Includes
 #include "defines.h"
 #include "Database.h"
+#include "PrintFile.h"
 
 #include <Windows.h>
 #include <CommCtrl.h>
