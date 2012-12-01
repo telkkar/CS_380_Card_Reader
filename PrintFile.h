@@ -35,5 +35,7 @@ class PrintFile
 public:
 	void printToHumanFormatted(char***, int);
 	void printToCSV(char***, int);
+private:
+	void freeArray(char***, int);
 
 };

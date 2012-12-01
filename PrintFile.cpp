@@ -54,17 +54,7 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 		x++;
 	}
 
-	for(int i = 0; i < numberOfRows; i++)
-	{
-		for(int j = 0; j < 3; j++)
-		{
-			delete data[i][j];
-		}
-
-		delete data[i];
-	}
-
-	delete data;
+	freeArray(data, numberOfRows);
 }
 
 void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
@@ -77,19 +67,24 @@ void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format
 		x++;	
 	}
 
+	freeArray(data, numberOfRows);
+}
+
+void PrintFile::freeArray(char ***array, int numberOfRows)
+{
 	for(int i = 0; i < numberOfRows; i++)
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			delete data[i][j];
+			delete array[i][j];
 		}
 
-		delete data[i];
+		delete array[i];
 	}
 
-	delete data;
-}
+	delete array;
 
+}
 
 
 
