@@ -284,15 +284,15 @@ char*** Database::getAttendanceTable()
 		sqlite3_step(dbStatement);
 		char *returnText = NULL;
 		
-		returnText = new char[LENGTH_NAME];
+		returnText = new char[LENGTH_NAME + 1];
 		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 0));
 		data[i][0] = returnText;
 
-		returnText = new char[LENGTH_MSU_ID];
+		returnText = new char[LENGTH_MSU_ID + 1];
 		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 1));
 		data[i][1] = returnText;
 
-		returnText = new char[LENGTH_COURSES];
+		returnText = new char[LENGTH_COURSES + 1];
 		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 2));
 		data[i][2] = returnText;
 	}
