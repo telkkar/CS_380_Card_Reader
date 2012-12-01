@@ -228,7 +228,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		HWND hwnd_AttendanceListBox = CreateWindow(
 			WC_LISTVIEW,
 			NULL,
-			WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT,
+			WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT | LVS_SHOWSELALWAYS,
 			0,		// X from top left
 			150,			// Y from top left
 			785,		// Width
@@ -428,6 +428,10 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 					ListView_SetItemText(hwnd_AttendanceListBox, 0, 3, (LPSTR)courses);
 					ListView_SetCheckState(hwnd_AttendanceListBox, 0, TRUE);
 
+					ListView_SetItemState(hwnd_AttendanceListBox, -1, 0, LVIS_SELECTED); // deselect all items
+					SendMessage(hwnd_AttendanceListBox, LVM_ENSUREVISIBLE, (WPARAM)0, FALSE); // if item is far, scroll to it
+					ListView_SetItemState(hwnd_AttendanceListBox, 0, LVIS_SELECTED, LVIS_SELECTED); // select item
+					
 					/* Needs to check for ints over 99 (any more than two digits) */
 					int count = db.getAttendanceCount();
 					char countText[3];
@@ -435,10 +439,26 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 					_itoa(db.getAttendanceCount(), countText, 10); 
 
 					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)countText);
+
+
 				}
 				else /* If the person is attending */
 				{
+					HWND hwnd_AttendanceListBox = GetDlgItem(FindWindow(szClassName, NULL), IDC_LISTBOX);
+
+					int int_cardNumber = atoi(cardNumber);
+
+					LVFINDINFO *lv = new LVFINDINFO;
+					lv->flags = LVFI_STRING;
+					lv->psz = cardNumber;
+
+					int position = ListView_FindItem(hwnd_AttendanceListBox, -1, lv);
+
 					// Select them in the list box? That'd be neat
+					ListView_SetItemState(hwnd_AttendanceListBox, -1, 0, LVIS_SELECTED); // deselect all items
+					SendMessage(hwnd_AttendanceListBox, LVM_ENSUREVISIBLE, (WPARAM)position, FALSE); // if item is far, scroll to it
+					ListView_SetItemState(hwnd_AttendanceListBox, position, LVIS_SELECTED, LVIS_SELECTED); // select item
+					//ListView_SetItemState(hwnd_AttendanceListBox, position, LVIS_FOCUSED, LVIS_FOCUSED); // optional
 				}
 			}
 			else
