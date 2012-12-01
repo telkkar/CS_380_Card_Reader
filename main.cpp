@@ -246,7 +246,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		ListView_InsertColumn(hwnd_AttendanceListBox, 0, &lvc);
 
         lvc.iSubItem = 1;
-        lvc.cx       = 150;
+        lvc.cx       = 200;
         lvc.pszText  = TEXT("Name");
         ListView_InsertColumn(hwnd_AttendanceListBox, 1, &lvc);
  
@@ -256,7 +256,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         ListView_InsertColumn(hwnd_AttendanceListBox, 2, &lvc);
  
         lvc.iSubItem = 3;
-        lvc.cx       = 575;
+        lvc.cx       = 525;
         lvc.pszText  = TEXT("Courses");
         ListView_InsertColumn(hwnd_AttendanceListBox, 3, &lvc);
 
