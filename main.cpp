@@ -30,13 +30,10 @@
 
 /**
  *	NOTES/TODO: 
- *		-Function: EditMemberDlgProc, under case: IDOK
- *			- Follow steps outlined right under IDOK case statement
  *		-If you want to add enter functionality in dialog box, you'll have to subclass boxes in dialog box
  */
 
 
-// Includes
 #include "defines.h"
 #include "Database.h"
 #include "PrintFile.h"
@@ -48,11 +45,9 @@
 // Callback function prototypes
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK CardNumberEditBox (HWND, UINT, WPARAM, LPARAM, UINT_PTR, DWORD_PTR);
-
 BOOL CALLBACK AddMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK EditMemberDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-// Global Variables
 char szClassName[] = "Scanner Window";
 Database db;
 

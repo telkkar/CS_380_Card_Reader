@@ -10,7 +10,7 @@
  */
 
 /**
- *	Header Block: Database Module
+ *	Header Block: Database Header
  *	Module Name: 
  *		Database Module
  *	Authors:
@@ -30,10 +30,9 @@
 
 /**
  *	NOTES/TODO: 
- *	- Missing some methods that are listed in the Class Diagram
+ *	
  *
  */
-
 
 #ifndef H_DATABASE
 #define H_DATABASE

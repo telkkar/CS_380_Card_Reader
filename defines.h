@@ -25,11 +25,6 @@
  *		N/A
  */
 
-/**
- *	NOTES/TODO: 
- *
- */
-
 #ifndef H_DEFINES
 #define H_DEFINES
 

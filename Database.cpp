@@ -25,18 +25,12 @@
  *		See Database.h header block
  */
 
-/**
- *	NOTES/TODO: 
- *	- Refactor some of the code in getMemberInfo()
- *
- */
-
 #include <stdlib.h>
 #include <string.h>
+
 #include "sqlite3.h"
 #include "Database.h"
 #include "defines.h"
-
 
 Database::Database()
 {

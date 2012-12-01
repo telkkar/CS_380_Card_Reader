@@ -1,7 +1,29 @@
+/**
+ *	Course:					CS 380
+ *	Group:					Group 2 - Card Reader Application Group
+ *	Group Members:			Dylan, John, William
+ *	Description of Project:
+ *		This is a card scanning program that accepts input in the form of card
+ *		numbers. When a user scans his/her card, the program will record his/
+ *		her attendance. If the program doesn't know who the user is, the user
+ *		is prompted for his/her information.
+ */
 
-#include "PrintFile.h"
-#include "defines.h"
-
+/**
+ *	Header Block: PrintFile Implementation
+ *	Module Name: 
+ *		PrintFile Implementation
+ *	Authors:
+ *		Dylan, John, William
+ *	Where it fits:
+ *		See PrintFile.h header block
+ *	When it was written, and revised:
+ *		Continuous revision, and revisement (see github commit history)
+ *	Why it exists:
+ *		See Database.h header block
+ *	How it uses datastructures, algorithms, and control:
+ *		See Database.h header block
+ */
 #include <iostream>
 #include <iomanip>
 #include <fstream>
