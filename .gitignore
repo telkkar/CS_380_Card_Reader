@@ -167,3 +167,8 @@ pip-log.txt
 # Binary Blobs (not sure if libraries are distributable under license)
 *.lib
 *.a
+
+##############
+## Extra Stuff
+##############
+tests/million-entry.db
