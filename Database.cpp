@@ -27,6 +27,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 
 #include "sqlite3.h"
 #include "Database.h"
@@ -263,16 +264,16 @@ void Database::clearAttendance()
 	sqlite3_finalize(dbStatement);
 }
 
-char*** Database::getAttendanceTable()
+std::string** Database::getAttendanceTable()
 {
 	int attendanceCount = getAttendanceCount();
 
-	char ***data;
-	data = new char**[attendanceCount];
+	std::string **data;
+	data = new std::string*[attendanceCount];
 
 	for(int i = 0; i < attendanceCount; i++)
 	{
-		data[i] = new char*[3]; 
+		data[i] = new std::string[3]; 
 	}
 
 	char sqlStatement[] = "SELECT name, idNumber, courses FROM Attendance";
@@ -282,22 +283,10 @@ char*** Database::getAttendanceTable()
 	for(int i = 0; i < attendanceCount; i++)
 	{
 		sqlite3_step(dbStatement);
-		char *returnText = NULL;
-		
-		returnText = new char[LENGTH_NAME + 1];
-		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 0));
-		data[i][0] = returnText;
-		delete returnText;
 
-		returnText = new char[LENGTH_MSU_ID + 1];
-		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 1));
-		data[i][1] = returnText;
-		delete returnText;
-
-		returnText = new char[LENGTH_COURSES + 1];
-		strcpy(returnText, (char *)sqlite3_column_text(dbStatement, 2));
-		data[i][2] = returnText;
-		delete returnText;
+		data[i][0] = (char *)sqlite3_column_text(dbStatement, 0);
+		data[i][1] = (char *)sqlite3_column_text(dbStatement, 1);
+		data[i][2] = (char *)sqlite3_column_text(dbStatement, 2);
 	}
 
 	sqlite3_finalize(dbStatement);

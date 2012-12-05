@@ -37,6 +37,8 @@
 #ifndef H_DATABASE
 #define H_DATABASE
 
+#include <string>
+
 #include "sqlite3.h"
 
 class Database
@@ -52,7 +54,7 @@ public:
 	void getMemberInfo(char* cardNumber, char* name, char* idNumber, char* courses);
 	void editInformation(char* cardNumber, char* name, char* idNumber, char* courses);
 	void clearAttendance();
-	char*** getAttendanceTable();
+	std::string** getAttendanceTable();
 
 private:
 	sqlite3* db;

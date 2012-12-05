@@ -30,12 +30,14 @@
  *		diagrams if you you want to know.
  */
 
+#include <string>
+
 class PrintFile
 {
 public:
-	void printToHumanFormatted(char***, int);
-	void printToCSV(char***, int);
+	void printToHumanFormatted(std::string**, int);
+	void printToCSV(std::string**, int);
 private:
-	void freeArray(char***, int);
+	void freeArray(std::string**, int);
 
 };

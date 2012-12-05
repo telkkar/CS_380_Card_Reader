@@ -34,7 +34,7 @@
 
 using namespace std;
 	
-void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
+void PrintFile::printToHumanFormatted(std:: string**data, int numberOfRows)
 {
 //	data[numberOfRows][3];
 	ofstream students("studentsHRF.txt", ios::out); //file for students to be recorded to.
@@ -59,7 +59,7 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 	students.close();
 }
 
-void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
+void PrintFile::printToCSV(std::string **data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
 {
 	ofstream students("studentsCSV.csv", ios::out); //CSV file for students to be recorded to.
 	int x = 0;
@@ -74,18 +74,11 @@ void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format
 	students.close();
 }
 
-void PrintFile::freeArray(char ***array, int numberOfRows)
+void PrintFile::freeArray(std::string **dataArray, int numberOfRows)
 {
 	for(int i = 0; i < numberOfRows; i++)
 	{
-		for(int j = 0; j < 3; j++)
-		{
-			delete array[i][j];
-		}
-
-		delete array[i];
+		delete [] dataArray[i];
 	}
-
-	delete array;
-
+	delete [] dataArray;
 }
