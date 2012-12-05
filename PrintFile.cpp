@@ -56,7 +56,7 @@ void PrintFile::printToHumanFormatted(char ***data, int numberOfRows)
 
 	freeArray(data, numberOfRows);
 	
-	students.close()
+	students.close();
 }
 
 void PrintFile::printToCSV(char ***data, int numberOfRows)//I may need to format this some more...kinda hard to read in the CSV file
