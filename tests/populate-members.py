@@ -19,8 +19,8 @@ def main():
     conn.commit()
 
 	## Display Members table
-    for row in c.execute("SELECT * FROM Members"):
-        print row
+    #for row in c.execute("SELECT * FROM Members"):
+    #    print row
 	
 	## Display Attendance table
     #for row in c.execute("SELECT * FROM Attendance"):
