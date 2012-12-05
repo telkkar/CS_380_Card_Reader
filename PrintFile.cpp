@@ -89,35 +89,3 @@ void PrintFile::freeArray(char ***array, int numberOfRows)
 	delete array;
 
 }
-
-
-
-
-
-
-
-
-// FOR TESTING PURPOSES ONLY!!!!!
-
-/*int main()
-{
-	string **data;
-	int numberOfRows = 4;
-	data = new string*[numberOfRows];
-
-	for(int i = 0; i < 4; i++)
-	{
-		data[i] = new string[3]; 
-		data[i][0] = "Number 1";
-		data[i][1] = "00000001";
-		data[i][2] = "NUM 001";
-	}
-
-
-	if(true)
-	{
-		printToHumanFormatted(data, 4);
-		printToCSV(data, 4);
-	}
-	return 0;
-}*/
