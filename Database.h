@@ -57,7 +57,7 @@ public:
 private:
 	sqlite3* db;
 	sqlite3_stmt* dbStatement;
-	void editMembers(char* cardNumber, char* name, char* idNumber, char* courses);
+	void editMember(char* cardNumber, char* name, char* idNumber, char* courses);
 	void editAttendance(char* cardNumber, char* name, char* idNumber, char* courses);
 
 };

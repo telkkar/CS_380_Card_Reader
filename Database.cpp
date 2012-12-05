@@ -180,7 +180,7 @@ void Database::getMemberInfo(char* cardNumber, char* name, char* idNumber, char*
 
 void Database::editInformation(char* cardNumber, char* name, char* idNumber, char* courses)
 {
-	editMembers(cardNumber, name, idNumber, courses);
+	editMember(cardNumber, name, idNumber, courses);
 	editAttendance(cardNumber, name, idNumber, courses);
 }
 
@@ -210,7 +210,7 @@ void Database::editAttendance(char* cardNumber, char* name, char* idNumber, char
 	sqlite3_finalize(dbStatement);
 }
 
-void Database::editMembers(char* cardNumber, char* name, char* idNumber, char* courses)
+void Database::editMember(char* cardNumber, char* name, char* idNumber, char* courses)
 {
 	char sqlStatement[25 +
 	                  (LENGTH_NAME + 1) + 13 +
