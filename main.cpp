@@ -437,16 +437,6 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 					ListView_SetItemState(hwnd_AttendanceListBox, -1, 0, LVIS_SELECTED); // deselect all items
 					SendMessage(hwnd_AttendanceListBox, LVM_ENSUREVISIBLE, (WPARAM)0, FALSE); // if item is far, scroll to it
 					ListView_SetItemState(hwnd_AttendanceListBox, 0, LVIS_SELECTED, LVIS_SELECTED); // select item
-					
-					/* Needs to check for ints over 99 (any more than two digits) */
-					int count = db.getAttendanceCount();
-					char countText[3];
-					
-					_itoa(db.getAttendanceCount(), countText, 10); 
-
-					SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)countText);
-
-
 				}
 				else /* If the person is attending */
 				{
@@ -474,6 +464,16 @@ LRESULT CALLBACK CardNumberEditBox(HWND hwnd, UINT message, WPARAM wParam, LPARA
 						  hwnd,
 						  AddMemberDlgProc);
 			}
+
+			/* Implement attendance counter */
+			/* Needs to check for ints over 99 (any more than two digits) */
+			int count = db.getAttendanceCount();
+			char countText[3];
+
+			_itoa(db.getAttendanceCount(), countText, 10);
+
+			SetWindowText(GetDlgItem(FindWindow(szClassName, NULL), IDC_ATTENDANCE_COUNTER), (LPCTSTR)countText);
+			/* End attendance counter */
 
 			SendMessage(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER), EM_SETSEL, 0, -1);
 			SetFocus(GetDlgItem(FindWindow(szClassName, NULL), IDC_EDIT_CARDNUMBER));
